@@ -6,7 +6,7 @@ export shareCode="XXXXXXX"
 0 10 * * *
 */
 
-const $ = new Env('柠檬全民挖现金');
+const $ = new Env('全民挖现金');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
