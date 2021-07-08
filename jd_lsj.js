@@ -11,7 +11,7 @@ export ljsdh="jdAward4" ##兑换牛奶
 [task_local]
 0 11 * * *
 */
-const $ = new Env('柠檬京东零食街');
+const $ = new Env('京东零食街');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -20,7 +20,7 @@ let useInfo = {};
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 let newShareCodes = [];
-let ljsdh = '';
+let ljsdh = 'jdAward3'; //默认兑换100京豆
 if (process.env.ljsdh) {
   ljsdh = process.env.ljsdh;
 }
