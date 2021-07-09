@@ -151,7 +151,7 @@
 #来客有礼小程序 送豆得豆
 45 4 * * * node /scripts/jd_senbeans.js >> /scripts/logs/jd_senbeans.log 2>&1
 # 燃动夏季
-12 9,11,13,15,17 * * * node /scripts/jd_summer_movement.js >> /scripts/logs/jd_summer_movement.log 2>&1
+12 0,6-23/2 * * * node /scripts/jd_summer_movement.js >> /scripts/logs/jd_summer_movement.log 2>&1
 # 欧洲杯签到
 55 59 9  * * * node /scripts/jd_europeancup.js >> /scripts/logs/jd_europeancup.log 2>&1
 #东东电竞经理
@@ -162,6 +162,8 @@
 5 0 * * * node /scripts/jd_jx_sign.js >> /scripts/logs/jd_jx_sign.log 2>&1
 #京东签到图形验证
 14 10 * * * node /scripts/jd_sign_graphics.js >> /scripts/logs/jd_sign_graphics.log 2>&1
+#燃动夏季_SH助力
+12 7-14 * * * node /scripts/jd_summer_sh_help.js >> /scripts/logs/jd_summer_sh_help.log 2>&1
 ##############默认注释活动##############
 # 京东试用（默认注释，请配合取关脚本使用）
 #10 0 * * *  node /scripts/jd_try.js >> /scripts/logs/jd_try.log 2>&1
