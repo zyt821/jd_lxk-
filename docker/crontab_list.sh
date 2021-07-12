@@ -136,7 +136,7 @@
 # 京东秒秒币
 10 7 * * * node /scripts/jd_ms.js >> /scripts/logs/jd_ms.log 2>&1
 # 京喜财富岛
-10 * * * *  node /scripts/jd_cfd.js >> /scripts/logs/jd_cfd.log 2>&1
+10 * * * *  node /scripts/jd_cfd2.js >> /scripts/logs/jd_cfd2.log 2>&1
 # 京喜财富岛提现
 0 0 * * *  node /scripts/jx_cfdtx.js >> /scripts/logs/jx_cfdtx.log 2>&1
 # 京东价格保护
@@ -173,6 +173,8 @@
 14 10 * * * node /scripts/jd_sign_graphics.js >> /scripts/logs/jd_sign_graphics.log 2>&1
 #点点券3任务可全部完成
 20 0,20 * * * node /scripts/jd_necklace3.js >> /scripts/logs/jd_necklace3.log 2>&1
+#汪汪乐园
+10 9 * * * node /scripts/jd_joy_park.js >> /scripts/logs/jd_joy_park.log 2>&1
 ##############默认注释活动##############
 # 京东试用（默认注释，请配合取关脚本使用）
 #10 0 * * *  node /scripts/jd_try.js >> /scripts/logs/jd_try.log 2>&1
