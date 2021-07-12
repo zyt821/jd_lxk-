@@ -174,7 +174,7 @@
 #点点券3任务可全部完成
 20 0,20 * * * node /scripts/jd_necklace3.js >> /scripts/logs/jd_necklace3.log 2>&1
 #汪汪乐园
-10 9 * * * node /scripts/jd_joy_park.js >> /scripts/logs/jd_joy_park.log 2>&1
+30 2,20 * * * node /scripts/jd_joy_park.js >> /scripts/logs/jd_joy_park.log 2>&1
 ##############默认注释活动##############
 # 京东试用（默认注释，请配合取关脚本使用）
 #10 0 * * *  node /scripts/jd_try.js >> /scripts/logs/jd_try.log 2>&1
