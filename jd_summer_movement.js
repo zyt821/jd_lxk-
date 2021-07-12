@@ -118,6 +118,21 @@ if ($.isNode()) {
       }
     }
   }
+  let allCodeList=[...$.byInviteList];
+  if(allCodeList.length >0){
+    console.log(`\n******开始助力百元守卫战*********\n`);
+    for (let i = 0; i < cookiesArr.length; i++) {
+      $.cookie = cookiesArr[i];
+      $.canHelp = true;
+      $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+      for (let i = 0; i < allCodeList.length && $.canHelp; i++) {
+        $.inviteId = allCodeList[i];
+        console.log(`${$.UserName} 去助力 ${$.inviteId}`);
+        await takePostRequest('byHelp');
+        await $.wait(1000);
+      }
+    }
+  }
   if ($.inviteList.length > 0) console.log(`\n******开始内部京东账号【邀请好友助力】*********\n`);
   for (let i = 0; i < cookiesArr.length; i++) {
     $.cookie = cookiesArr[i];
@@ -133,31 +148,6 @@ if ($.isNode()) {
       console.log(`${$.UserName}去助力${$.oneInviteInfo.ues},助力码${$.inviteId}`);
       await takePostRequest('help');
       await $.wait(2000);
-    }
-  }
-  let res = [],res2 = [];
-  // if(helpAuthorFlag){
-  //   try{
-  //     res = await getAuthorShareCode('http://cdn.trueorfalse.top/392b03aabdb848d0b7e5ae499ef24e35/');
-  //     res2 = await getAuthorShareCode(`https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_zoo.json?${new Date()}`);
-  //   }catch (e) {}
-  //   if(!res){res = [];}
-  //   if(!res2){res2 = [];}
-  // }
-  // let allCodeList = getRandomArrayElements([ ...res, ...res2],[ ...res, ...res2].length);
-  let allCodeList=[...$.byInviteList];
-  if(allCodeList.length >0){
-    console.log(`\n******开始助力百元守卫战*********\n`);
-    for (let i = 0; i < cookiesArr.length; i++) {
-      $.cookie = cookiesArr[i];
-      $.canHelp = true;
-      $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-      for (let i = 0; i < allCodeList.length && $.canHelp; i++) {
-        $.inviteId = allCodeList[i];
-        console.log(`${$.UserName} 去助力 ${$.inviteId}`);
-        await takePostRequest('byHelp');
-        await $.wait(1000);
-      }
     }
   }
   try{
@@ -179,6 +169,10 @@ async function main(){
     await takePostRequest('olympicgames_tiroGuide');
     await $.wait(1000);
   }
+  console.log('获取百元守卫战信息')
+  $.guradHome = {};
+  await takePostRequest('olypicgames_guradHome');
+  await $.wait(2000);
   if (Number($.userInfo.poolCurrency) >= Number($.userInfo.exchangeThreshold)) {
     console.log(`满足升级条件，去升级`);
     await $.wait(1000);
@@ -219,9 +213,7 @@ async function main(){
   await takePostRequest('wxTaskDetail');
   await $.wait(1000)
   await doTask();
-  console.log('获取百元守卫战信息')
-  $.guradHome = {};
-  await takePostRequest('olypicgames_guradHome');
+
 }
 
 async function getBody($) {const zf = new MovementFaker($.cookie);const ss = await zf.run();return ss;}
