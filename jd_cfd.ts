@@ -8,6 +8,7 @@
 import {format} from 'date-fns';
 import axios from 'axios';
 import USER_AGENT from './TS_USER_AGENTS';
+import {Md5} from 'ts-md5'
 import * as dotenv from 'dotenv';
 
 const CryptoJS = require('crypto-js')
@@ -15,10 +16,6 @@ const CryptoJS = require('crypto-js')
 dotenv.config()
 let appId: number = 10028, fingerprint: string | number, token: string, enCryptMethodJD: any;
 let cookie: string = '', cookiesArr: Array<string> = [], res: any = '', shareCodes: string[] = [];
-let CFD_HELP_HW: boolean | string = process.env.CFD_HELP_HW ? process.env.CFD_HELP_HW : false;
-console.log('帮助HelloWorld:', CFD_HELP_HW)
-let CFD_HELP_POOL: boolean | string = process.env.CFD_HELP_POOL ? process.env.CFD_HELP_POOL : false;
-console.log('帮助助力池:', CFD_HELP_POOL)
 
 
 let UserName: string, index: number, isLogin: boolean, nickName: string
@@ -34,37 +31,65 @@ let UserName: string, index: number, isLogin: boolean, nickName: string
         nickName = '';
         console.log(`\n开始【京东账号${index}】${nickName || UserName}\n`);
 
-        await makeShareCodes();
-
-        // 任务1
-        let tasks: any
-        /*
-         tasks= await api('story/GetActTask', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
-        for (let t of tasks.Data.TaskList) {
-          if (t.dwCompleteNum === t.dwTargetNum && t.dwAwardStatus === 2) {
-            res = await api('Award', '_cfd_t,bizCode,dwEnv,ptag,source,strZone,taskId', {taskId: t.ddwTaskId})
-            if (res.ret === 0) {
-              console.log(`${t.strTaskName}领奖成功:`, res.data.prizeInfo)
-            }
-            await wait(1000)
-          }
+        try {
+            await makeShareCodes();
+        } catch (e) {
+            console.log(e)
         }
-         */
+
+        let dwUserId: number = 1
+        // 助力奖励
+        while (1) {
+            res = await api('story/helpdraw', '_cfd_t,bizCode,dwEnv,dwUserId,ptag,source,strZone', {dwUserId: dwUserId})
+            dwUserId++
+            if (res.iRet === 0) {
+                console.log('助力奖励领取成功', res.Data.ddwCoin)
+            } else if (res.iRet === 1000)
+                break
+            else {
+                console.log('助力奖励领取其他错误:', res)
+                break
+            }
+            await wait(2000)
+        }
 
 
-        // res = await api('story/SpecialUserOper',
-        //   '_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone,triggerType',
-        //   {strStoryId: 'stroy_1626065998453014_1', dwType: '2', triggerType: 0, ddwTriggerDay: 1626019200})
-        // console.log('船到:', res)
-        // await wait(31000)
-        // res = await api('story/SpecialUserOper',
-        //   '_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone,triggerType',
-        //   {strStoryId: 'stroy_1626065998453014_1', dwType: '3', triggerType: 0, ddwTriggerDay: 1626019200})
-        // console.log('下船:', res)
+        // 清空背包
+        res = await api('story/querystorageroom', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
+        console.log(res)
+        let bags: number[] = []
+        for (let s of res.Data.Office) {
+            console.log(s.dwCount, s.dwType)
+            bags.push(s.dwType)
+            bags.push(s.dwCount)
+        }
+        await wait(1000)
+        let strTypeCnt: string = ''
+        for (let n = 0; n < bags.length; n++) {
+            if (n % 2 === 0)
+                strTypeCnt += `${bags[n]}:`
+            else
+                strTypeCnt += `${bags[n]}|`
+        }
+        res = await api('story/sellgoods', '_cfd_t,bizCode,dwEnv,dwSceneId,ptag,source,strTypeCnt,strZone',
+            {dwSceneId: '1', strTypeCnt: strTypeCnt})
+        console.log('卖贝壳收入:', res.Data.ddwCoin, res.Data.ddwMoney)
+
+        // 任务➡️
+        let tasks: any
+        tasks = await api('story/GetActTask', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
+        for (let t of tasks.Data.TaskList) {
+            if (t.dwCompleteNum === t.dwTargetNum && t.dwAwardStatus === 2) {
+                res = await api('Award', '_cfd_t,bizCode,dwEnv,ptag,source,strZone,taskId', {taskId: t.ddwTaskId})
+                if (res.ret === 0) {
+                    console.log(`${t.strTaskName}领奖成功:`, res.data.prizeInfo)
+                }
+                await wait(1000)
+            }
+        }
 
         // 导游
         res = await api('user/EmployTourGuideInfo', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
-
         if (!res.TourGuideList) {
             console.log('手动雇佣4个试用导游')
         } else {
@@ -78,6 +103,7 @@ let UserName: string, index: number, isLogin: boolean, nickName: string
             }
         }
 
+        // 任务⬇️
         tasks = await mainTask('GetUserTaskStatusList', '_cfd_t,bizCode,dwEnv,ptag,source,strZone,taskId', {taskId: 0});
         for (let t of tasks.data.userTaskStatusList) {
             if (t.dateType === 2) {
@@ -115,31 +141,15 @@ let UserName: string, index: number, isLogin: boolean, nickName: string
             await wait(1000)
         }
     }
-
-    // 获取随机助力码
-    if (CFD_HELP_HW) {
-        shareCodes = [
-            ...shareCodes,
-            ...[
-                ''
-            ]
-        ]
-    }
-    if (CFD_HELP_POOL) {
-        let {data} = await axios.get('')
-        console.log('获取到20个随机助力码:', data.data)
-        shareCodes = [...shareCodes, ...data.data]
-    } else {
-        console.log('你的设置是不帮助助力池！')
-    }
     for (let i = 0; i < cookiesArr.length; i++) {
         for (let j = 0; j < shareCodes.length; j++) {
             cookie = cookiesArr[i]
             console.log('去助力:', shareCodes[j])
             res = await api('story/helpbystage', '_cfd_t,bizCode,dwEnv,ptag,source,strShareId,strZone', {strShareId: shareCodes[j]})
-            console.log(res)
-            if (res.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~')
+            console.log('助力:', res)
+            if (res.iRet === 2232 || res.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~') {
                 break
+            }
             await wait(3000)
         }
     }
@@ -158,7 +168,10 @@ interface Params {
     dwIsFree?: number,
     ddwTaskId?: string,
     strShareId?: string,
-    strMarkList?: string
+    strMarkList?: string,
+    dwSceneId?: string,
+    strTypeCnt?: string,
+    dwUserId?: number
 }
 
 function api(fn: string, stk: string, params: Params = {}) {
@@ -213,11 +226,33 @@ function mainTask(fn: string, stk: string, params: Params = {}) {
 }
 
 function makeShareCodes() {
-    return new Promise<void>(async resolve => {
+    return new Promise<void>(async (resolve, reject) => {
+        let {data} = await axios.post('https://api.m.jd.com/client.action?functionId=initForFarm', `body=${escape(JSON.stringify({"version": 4}))}&appid=wh5&clientVersion=9.1.0`, {
+            headers: {
+                "cookie": cookie,
+                "origin": "https://home.m.jd.com",
+                "referer": "https://home.m.jd.com/myJd/newhome.action",
+                "User-Agent": USER_AGENT,
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        })
+        let farm: string = data.farmUserPro.shareCode
         res = await api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strShareId,strZone', {ddwTaskId: '', strShareId: '', strMarkList: 'undefined'})
         console.log('助力码:', res.strMyShareId)
         shareCodes.push(res.strMyShareId)
-        resolve()
+        let pin: string = cookie.match(/pt_pin=([^;]*)/)![1]
+        pin = Md5.hashStr(pin)
+        axios.get(`https://api.sharecode.ga/api/jxcfd/insert?code=${res.strMyShareId}&farm=${farm}&pin=${pin}`)
+            .then(res => {
+                if (res.data.code === 200)
+                    console.log('已自动提交助力码')
+                else
+                    console.log('提交失败！已提交farm的cookie才可提交cfd')
+                resolve()
+            })
+            .catch(e => {
+                reject('访问助力池出错')
+            })
     })
 }
 
