@@ -381,16 +381,6 @@ function makeShareCodes() {
                     shareCodes.push(res.strMyShareId);
                     pin = cookie.match(/pt_pin=([^;]*)/)[1];
                     pin = ts_md5_1.Md5.hashStr(pin);
-                    axios_1["default"].get("https://api.sharecode.ga/api/jxcfd/insert?code=" + res.strMyShareId + "&farm=" + farm + "&pin=" + pin)
-                        .then(function (res) {
-                        if (res.data.code === 200)
-                            console.log('已自动提交助力码');
-                        else
-                            console.log('提交失败！已提交farm的cookie才可提交cfd');
-                        resolve();
-                    })["catch"](function (e) {
-                        reject('访问助力池出错');
-                    });
                     return [2 /*return*/];
             }
         });
