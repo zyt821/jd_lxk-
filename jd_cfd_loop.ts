@@ -1,20 +1,55 @@
 /**
  * 财富岛热气球挂后台
+ * export CFD_LOOP_DELAY=20000  // 捡气球间隔时间，单位毫秒
  */
 
-import {format} from 'date-fns';
-import axios from 'axios';
-import USER_AGENT from './TS_USER_AGENTS';
+import {format} from 'date-fns'
+import axios from 'axios'
+import USER_AGENT from './TS_USER_AGENTS'
+import * as dotenv from 'dotenv'
 
 const CryptoJS = require('crypto-js')
+const crypto = require('crypto')
+const fs = require('fs')
+const notify = require('./sendNotify')
+dotenv.config()
 
 let appId: number = 10028, fingerprint: string | number, token: string, enCryptMethodJD: any;
 let cookie: string = '', cookiesArr: Array<string> = [], res: any = '';
+process.env.CFD_LOOP_DELAY ? console.log('设置延迟:', parseInt(process.env.CFD_LOOP_DELAY)) : console.log('设置延迟:10000~25000随机')
 
 let UserName: string, index: number, isLogin: boolean, nickName: string
 !(async () => {
   await requestAlgo();
   await requireConfig();
+
+  let filename: string = __filename.split('/').pop()!
+  let stream = fs.createReadStream(filename);
+  let fsHash = crypto.createHash('md5');
+
+  stream.on('data', (d: any) => {
+    fsHash.update(d);
+  });
+
+  stream.on('end', () => {
+    let md5 = fsHash.digest('hex');
+    console.log(`${filename}的MD5是:`, md5);
+    if (filename.indexOf('JDHelloWorld_jd_scripts_') > -1) {
+      filename = filename.replace('JDHelloWorld_jd_scripts_', '')
+    }
+    axios.get('https://api.sharecode.ga/api/md5?filename=' + filename)
+      .then(res => {
+        console.log('local: ', md5)
+        console.log('remote:', res.data)
+        if (md5 !== res.data) {
+          notify.sendNotify("Warning", `${filename}\nMD5校验失败！你的脚本疑似被篡改！`)
+        } else {
+          console.log('MD5校验通过！')
+        }
+      }).catch(e => {
+
+    })
+  });
 
   while (1) {
     try {
@@ -33,10 +68,17 @@ let UserName: string, index: number, isLogin: boolean, nickName: string
         }
         console.log('今日热气球:', res.dwTodaySpeedPeople, '/', 20)
         let shell: any = await speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strZone')
-        for (let s of shell.Data.NormShell) {
-          for (let j = 0; j < s.dwNum; j++) {
-            await speedUp('_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', s.dwType)
-            await wait(1000)
+        if (shell.Data.hasOwnProperty('NormShell')) {
+          for (let s of shell.Data.NormShell) {
+            for (let j = 0; j < s.dwNum; j++) {
+              res = await speedUp('_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', s.dwType)
+              if (res.iRet !== 0){
+                console.log(res)
+                break
+              }
+              console.log('捡贝壳:', res.Data.strFirstDesc)
+              await wait(500)
+            }
           }
         }
       }
@@ -44,27 +86,32 @@ let UserName: string, index: number, isLogin: boolean, nickName: string
       console.log(e)
       break
     }
-    await wait(getRandomNumberByRange(10, 25))
+    let t: number = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : getRandomNumberByRange(10000, 25000)
+    await wait(t)
   }
 })()
 
 function speedUp(stk: string, dwType?: number) {
-  return new Promise(async resolve => {
+  return new Promise(async (resolve, reject) => {
     let url: string = `https://m.jingxi.com/jxbfd/user/SpeedUp?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=${Date.now()}&ptag=&strBuildIndex=food&_ste=1&_=${Date.now()}&sceneval=2&_stk=${encodeURIComponent(stk)}`
     if (stk === '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
       url = `https://m.jingxi.com/jxbfd/story/queryshell?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=${Date.now()}&ptag=&_stk=_cfd_t%2CbizCode%2CdwEnv%2Cptag%2Csource%2CstrZone&_ste=1&_=${Date.now()}&sceneval=2`
     if (stk === '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone')
       url = `https://m.jingxi.com/jxbfd/story/pickshell?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=${Date.now()}&ptag=&dwType=${dwType}&_stk=_cfd_t%2CbizCode%2CdwEnv%2CdwType%2Cptag%2Csource%2CstrZone&_ste=1&_=${Date.now()}&sceneval=2`
     url += '&h5st=' + decrypt(stk, url)
-    let {data} = await axios.get(url, {
-      headers: {
-        'Host': 'm.jingxi.com',
-        'Referer': 'https://st.jingxi.com/',
-        'User-Agent': USER_AGENT,
-        'Cookie': cookie
-      }
-    })
-    resolve(data)
+    try {
+      let {data} = await axios.get(url, {
+        headers: {
+          'Host': 'm.jingxi.com',
+          'Referer': 'https://st.jingxi.com/',
+          'User-Agent': USER_AGENT,
+          'Cookie': cookie
+        }
+      })
+      resolve(data)
+    } catch (e) {
+      reject(e)
+    }
   })
 }
 
@@ -165,6 +212,6 @@ function wait(t: number) {
   })
 }
 
-function getRandomNumberByRange(start, end) {
+function getRandomNumberByRange(start: number, end: number): number {
   return Math.floor(Math.random() * (end - start) + start)
 }

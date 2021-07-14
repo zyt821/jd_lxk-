@@ -29,12 +29,6 @@ let UserName: string, index: number, isLogin: boolean, nickName: string
     nickName = '';
     console.log(`\n开始【京东账号${index}】${nickName || UserName}\n`);
 
-    try {
-      await makeShareCodes();
-    } catch (e) {
-      console.log(e)
-    }
-
     // 签到 助力奖励
     res = await api('story/GetTakeAggrPage', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
     let employee: any = res.Data.Employee.EmployeeList.filter((e: any) => {
@@ -261,29 +255,6 @@ function mainTask(fn: string, stk: string, params: Params = {}) {
       }
     })
     resolve(data)
-  })
-}
-
-function makeShareCodes() {
-  return new Promise<void>(async (resolve, reject) => {
-    let bean: string = await getBeanShareCode(cookie)
-    let farm: string = await getFarmShareCode(cookie)
-    res = await api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strShareId,strZone', {ddwTaskId: '', strShareId: '', strMarkList: 'undefined'})
-    console.log('助力码:', res.strMyShareId)
-    shareCodes.push(res.strMyShareId)
-    let pin: string = cookie.match(/pt_pin=([^;]*)/)![1]
-    pin = Md5.hashStr(pin)
-    axios.get(`https://api.sharecode.ga/api/autoInsert?db=jxcfd&code=${res.strMyShareId}&bean=${bean}&farm=${farm}&pin=${pin}`)
-      .then(res => {
-        if (res.data.code === 200)
-          console.log('已自动提交助力码')
-        else
-          console.log('提交失败！已提交farm和bean的cookie才可提交cfd')
-        resolve()
-      })
-      .catch(e => {
-        reject('访问助力池出错')
-      })
   })
 }
 
