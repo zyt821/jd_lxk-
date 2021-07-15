@@ -59,6 +59,8 @@
 1 8 * * * node /scripts/jd_wxFans.js >> /scripts/logs/jd_wxFans.log 2>&1
 #天天优惠大乐透
 15 6 * * * node /scripts/jd_DrawEntrance.js >> /scripts/logs/jd_DrawEntrance.log 2>&1
+#特务Z行动-星小店
+20 0 * * * node /scripts/jd_twz_star.js >> /scripts/logs/jd_twz_star.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
