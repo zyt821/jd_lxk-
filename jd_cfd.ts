@@ -318,18 +318,6 @@ function makeShareCodes() {
     shareCodes.push(res.strMyShareId)
     let pin: string = cookie.match(/pt_pin=([^;]*)/)![1]
     pin = Md5.hashStr(pin)
-    axios.get(`https://api.sharecode.ga/api/autoInsert?db=jxcfd&code=${res.strMyShareId}&bean=${bean}&farm=${farm}&pin=${pin}`)
-      .then(res => {
-        if (res.data.code === 200)
-          console.log('已自动提交助力码')
-        else
-          console.log('提交失败！已提交farm和bean的cookie才可提交cfd')
-        resolve()
-      })
-      .catch((e) => {
-        console.log(e)
-        reject('访问助力池出错')
-      })
   })
 }
 
