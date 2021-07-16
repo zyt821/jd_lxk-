@@ -2,6 +2,12 @@
  * 京喜财富岛
  * 包含雇佣导游，建议每小时1次
  *
+ * 此版本暂定默认帮助HelloWorld，帮助助力池
+ * export HELP_HW = true    // 帮助HelloWorld
+ * export HELP_POOL = true  // 帮助助力池
+ *
+ * 使用jd_env_copy.js同步js环境变量到ts
+ * 使用jd_ts_test.ts测试环境变量
  */
 
 import {format} from 'date-fns';
@@ -15,6 +21,11 @@ const notify = require('./sendNotify')
 dotenv.config()
 let appId: number = 10028, fingerprint: string | number, token: string = '', enCryptMethodJD: any;
 let cookie: string = '', cookiesArr: string[] = [], res: any = '', shareCodes: string[] = [];
+
+let HELP_HW: string = process.env.HELP_HW ? process.env.HELP_HW : "false";
+console.log('帮助HelloWorld:', HELP_HW)
+let HELP_POOL: string = process.env.HELP_POOL ? process.env.HELP_POOL : "false";
+console.log('帮助助力池:', HELP_POOL)
 
 interface Params {
   strBuildIndex?: string,
@@ -243,7 +254,30 @@ let UserName: string, index: number;
     }
   }
 
-  // 开始号内助力
+  // 获取随机助力码
+  if (HELP_HW === 'true') {
+    try {
+      let {data} = await axios.get("https://api.sharecode.ga/api/HW_CODES")
+      shareCodes = [
+        ...shareCodes,
+        ...data.jxcfd
+      ]
+      console.log('获取HelloWorld助力码成功')
+    } catch (e) {
+      console.log('获取HelloWorld助力码出错')
+    }
+  }
+  if (HELP_POOL === 'true') {
+    try {
+      let {data} = await axios.get('https://api.sharecode.ga/api/jxcfd/20')
+      console.log('获取到20个随机助力码:', data.data)
+      shareCodes = [...shareCodes, ...data.data]
+    } catch (e) {
+      console.log('获取助力池失败')
+    }
+  } else {
+    console.log('你的设置是不帮助助力池')
+  }
   for (let i = 0; i < cookiesArr.length; i++) {
     for (let j = 0; j < shareCodes.length; j++) {
       cookie = cookiesArr[i]
@@ -318,6 +352,18 @@ function makeShareCodes() {
     shareCodes.push(res.strMyShareId)
     let pin: string = cookie.match(/pt_pin=([^;]*)/)![1]
     pin = Md5.hashStr(pin)
+    axios.get(`https://api.sharecode.ga/api/autoInsert?db=jxcfd&code=${res.strMyShareId}&bean=${bean}&farm=${farm}&pin=${pin}`)
+      .then(res => {
+        if (res.data.code === 200)
+          console.log('已自动提交助力码')
+        else
+          console.log('提交失败！已提交farm和bean的cookie才可提交cfd')
+        resolve()
+      })
+      .catch((e) => {
+        console.log(e)
+        reject('访问助力池出错')
+      })
   })
 }
 

@@ -3,6 +3,12 @@
  * 京喜财富岛
  * 包含雇佣导游，建议每小时1次
  *
+ * 此版本暂定默认帮助HelloWorld，帮助助力池
+ * export HELP_HW = true    // 帮助HelloWorld
+ * export HELP_POOL = true  // 帮助助力池
+ *
+ * 使用jd_env_copy.js同步js环境变量到ts
+ * 使用jd_ts_test.ts测试环境变量
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -40,6 +46,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 exports.__esModule = true;
 var date_fns_1 = require("date-fns");
 var axios_1 = require("axios");
@@ -51,9 +62,13 @@ var notify = require('./sendNotify');
 dotenv.config();
 var appId = 10028, fingerprint, token = '', enCryptMethodJD;
 var cookie = '', cookiesArr = [], res = '', shareCodes = [];
+var HELP_HW = process.env.HELP_HW ? process.env.HELP_HW : "false";
+console.log('帮助HelloWorld:', HELP_HW);
+var HELP_POOL = process.env.HELP_POOL ? process.env.HELP_POOL : "false";
+console.log('帮助助力池:', HELP_POOL);
 var UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, _a, isLogin, nickName, e_1, strDT, strMyShareId, i_1, RealTmReport, j, _i, _b, stage, awardRes, employee, _c, employee_1, emp, empRes, _d, _e, sign, shipRes, bags, _f, _g, s, strTypeCnt, n, tasks, _h, _j, t, _k, _l, e, employ, _m, _o, t, _p, _q, b, i, j;
+    var i, _a, isLogin, nickName, e_1, strDT, strMyShareId, i_1, RealTmReport, j, _i, _b, stage, awardRes, employee, _c, employee_1, emp, empRes, _d, _e, sign, shipRes, bags, _f, _g, s, strTypeCnt, n, tasks, _h, _j, t, _k, _l, e, employ, _m, _o, t, _p, _q, b, data, e_2, data, e_3, i, j;
     return __generator(this, function (_r) {
         switch (_r.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
@@ -383,34 +398,68 @@ var UserName, index;
                 i++;
                 return [3 /*break*/, 3];
             case 81:
-                i = 0;
+                if (!(HELP_HW === 'true')) return [3 /*break*/, 85];
                 _r.label = 82;
             case 82:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 88];
-                j = 0;
-                _r.label = 83;
+                _r.trys.push([82, 84, , 85]);
+                return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/HW_CODES")];
             case 83:
-                if (!(j < shareCodes.length)) return [3 /*break*/, 87];
+                data = (_r.sent()).data;
+                shareCodes = __spreadArray(__spreadArray([], shareCodes), data.jxcfd);
+                console.log('获取HelloWorld助力码成功');
+                return [3 /*break*/, 85];
+            case 84:
+                e_2 = _r.sent();
+                console.log('获取HelloWorld助力码出错');
+                return [3 /*break*/, 85];
+            case 85:
+                if (!(HELP_POOL === 'true')) return [3 /*break*/, 90];
+                _r.label = 86;
+            case 86:
+                _r.trys.push([86, 88, , 89]);
+                return [4 /*yield*/, axios_1["default"].get('https://api.sharecode.ga/api/jxcfd/20')];
+            case 87:
+                data = (_r.sent()).data;
+                console.log('获取到20个随机助力码:', data.data);
+                shareCodes = __spreadArray(__spreadArray([], shareCodes), data.data);
+                return [3 /*break*/, 89];
+            case 88:
+                e_3 = _r.sent();
+                console.log('获取助力池失败');
+                return [3 /*break*/, 89];
+            case 89: return [3 /*break*/, 91];
+            case 90:
+                console.log('你的设置是不帮助助力池');
+                _r.label = 91;
+            case 91:
+                i = 0;
+                _r.label = 92;
+            case 92:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 98];
+                j = 0;
+                _r.label = 93;
+            case 93:
+                if (!(j < shareCodes.length)) return [3 /*break*/, 97];
                 cookie = cookiesArr[i];
                 console.log("\u8D26\u53F7" + (i + 1) + "\u53BB\u52A9\u529B:", shareCodes[j]);
                 return [4 /*yield*/, api('story/helpbystage', '_cfd_t,bizCode,dwEnv,ptag,source,strShareId,strZone', { strShareId: shareCodes[j] })];
-            case 84:
+            case 94:
                 res = _r.sent();
                 console.log('助力:', res);
                 if (res.iRet === 2232 || res.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~') {
-                    return [3 /*break*/, 87];
+                    return [3 /*break*/, 97];
                 }
                 return [4 /*yield*/, wait(3000)];
-            case 85:
+            case 95:
                 _r.sent();
-                _r.label = 86;
-            case 86:
+                _r.label = 96;
+            case 96:
                 j++;
-                return [3 /*break*/, 83];
-            case 87:
+                return [3 /*break*/, 93];
+            case 97:
                 i++;
-                return [3 /*break*/, 82];
-            case 88: return [2 /*return*/];
+                return [3 /*break*/, 92];
+            case 98: return [2 /*return*/];
         }
     });
 }); })();
@@ -504,6 +553,17 @@ function makeShareCodes() {
                     shareCodes.push(res.strMyShareId);
                     pin = cookie.match(/pt_pin=([^;]*)/)[1];
                     pin = ts_md5_1.Md5.hashStr(pin);
+                    axios_1["default"].get("https://api.sharecode.ga/api/autoInsert?db=jxcfd&code=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin)
+                        .then(function (res) {
+                        if (res.data.code === 200)
+                            console.log('已自动提交助力码');
+                        else
+                            console.log('提交失败！已提交farm和bean的cookie才可提交cfd');
+                        resolve();
+                    })["catch"](function (e) {
+                        console.log(e);
+                        reject('访问助力池出错');
+                    });
                     return [2 /*return*/];
             }
         });
