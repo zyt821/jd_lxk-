@@ -19,8 +19,10 @@
 0 0,1-23/1 * * * node /scripts/jd_super_redrain.js >> /scripts/logs/jd_super_redrain.log 2>&1
 # jd_half_redrain
 30 0,1-23/1 * * * node /scripts/jd_half_redrain.js >> /scripts/logs/jd_half_redrain.log 2>&1
-#jd_daily_lottery
-13 1,22,23 * * * node /scripts/jd_daily_lottery.js >> /scripts/logs/jd_daily_lottery.log 2>&1
+#小鸽有礼
+#13 1,22,23 * * * node /scripts/jd_daily_lottery.js >> /scripts/logs/jd_daily_lottery.log 2>&1
+#京小鸽吾悦寄
+13 1,22,23 * * * node /scripts/jd_jxg.js >> /scripts/logs/jd_jxg.log 2>&1
 #jd_beauty
 1 8,13,20 * * * node /scripts/jd_beauty.js >> /scripts/logs/jd_beauty.log 2>&1
 #金榜创造营
