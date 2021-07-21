@@ -97,7 +97,6 @@ if ($.isNode()) {
             await $.wait(1000);
           }
         }
-        if ($.canHelp) await joinLeaderTuan();//参团
       }
     }
   }
@@ -1011,22 +1010,6 @@ async function tuanActivity() {
           }
         }
       }
-    }
-  }
-}
-
-async function joinLeaderTuan() {
-  let res = await updateTuanIdsCDN()
-  let res2 = await updateTuanIdsCDN("https://raw.githubusercontent.com/JDHelloWorld/jd_scripts/main/tools/empty.json")
-  if (!res) res = await updateTuanIdsCDN('https://raw.githubusercontent.com/JDHelloWorld/jd_scripts/main/tools/empty.json');
-  $.authorTuanIds = [...(res && res.tuanIds || []), ...(res2 && res2.tuanIds || [])]
-  if ($.authorTuanIds && $.authorTuanIds.length) {
-    for (let tuanId of $.authorTuanIds) {
-      if (!tuanId) continue
-      if (!$.canHelp) break;
-      console.log(`\n账号${$.UserName} 参加作者的团 【${tuanId}】`);
-      await JoinTuan(tuanId);
-      await $.wait(1000);
     }
   }
 }
