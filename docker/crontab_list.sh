@@ -44,9 +44,9 @@
 #京喜领红包
 1 5,20 * 6 * node /scripts/jd_jxlhb.js >> /scripts/logs/jd_jxlhb.log 2>&1
 # 燃动夏季
-25 0,6-23/2 * * * node /scripts/jd_summer_movement.js >> /scripts/logs/jd_summer_movement.log 2>&1
+12 0,6-23/2 * * * node /scripts/jd_summer_movement.js >> /scripts/logs/jd_summer_movement.log 2>&1
 #燃动夏季_SH助力
-12 7-14 * * * node /scripts/jd_summer_sh_help.js >> /scripts/logs/jd_summer_sh_help.log 2>&1
+14/41 7-14 * * * node /scripts/jd_summer_sh_help.js >> /scripts/logs/jd_summer_sh_help.log 2>&1
 #燃动夏季领会员奖励
 10 8 * * * node /scripts/jd_summer_movement_card.js >> /scripts/logs/jd_summer_movement_card.log 2>&1
 #燃动夏季下注
@@ -146,7 +146,7 @@
 # 京东秒秒币
 10 7 * * * node /scripts/jd_ms.js >> /scripts/logs/jd_ms.log 2>&1
 # 京喜财富岛
-0 * * * *  node /scripts/jd_cfd.js >> /scripts/logs/jd_cfd.log 2>&1
+18 0-23/2 * * *  node /scripts/jd_cfd.js >> /scripts/logs/jd_cfd.log 2>&1
 # 京喜财富岛提现
 0 0 * * *  node /scripts/jx_cfdtx.js >> /scripts/logs/jx_cfdtx.log 2>&1
 # 京东价格保护
