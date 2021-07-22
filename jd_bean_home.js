@@ -1,24 +1,20 @@
 /*
 领京豆额外奖励&抢京豆
-脚本自带助力码，介意者可将 29行 helpAuthor 变量设置为 false
 活动入口：京东APP首页-领京豆
-更新地址：https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_home.js
+更新地址：jd_bean_home.js
 已支持IOS双京东账号, Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, 小火箭，JSBox, Node.js
 ============Quantumultx===============
 [task_local]
 #领京豆额外奖励
-10 7 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_home.js, tag=领京豆额外奖励, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_bean_home.png, enabled=true
-
+10 7 * * * jd_bean_home.js, tag=领京豆额外奖励, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_bean_home.png, enabled=true
 ================Loon==============
 [Script]
-cron "10 7 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_home.js, tag=领京豆额外奖励
-
+cron "10 7 * * *" script-path=jd_bean_home.js, tag=领京豆额外奖励
 ===============Surge=================
-领京豆额外奖励 = type=cron,cronexp="10 7 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_home.js
-
+领京豆额外奖励 = type=cron,cronexp="10 7 * * *",wake-system=1,timeout=3600,script-path=jd_bean_home.js
 ============小火箭=========
-领京豆额外奖励 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_home.js, cronexpr="10 7 * * *", timeout=3600, enable=true
+领京豆额外奖励 = type=cron,script-path=jd_bean_home.js, cronexpr="10 7 * * *", timeout=3600, enable=true
  */
 const $ = new Env('领京豆额外奖励');
 
@@ -26,7 +22,6 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
-const helpAuthor = true; // 是否帮助作者助力，false打开通知推送，true关闭通知推送
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 if ($.isNode()) {
@@ -40,9 +35,19 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/';
 !(async () => {
-  $.newShareCodes = []
-  // await getAuthorShareCode();
-  // await getAuthorShareCode2();
+  $.newShareCodes = [
+      "346EF4BD0A25F405067AC1C3991110BA",
+      "F4AEC40E3AA2DA5266C483C883F5F1CB",
+      "9C178626C4351B0C716F5A643D1E382BAD1DAAB9A3E3F6CBAFDE81EEB7393333",
+      "D6ACE4F72D41FD6F14194566BFC5E039",
+      "4AAED53A1E1B3926909BA4BE0E1A0C38AD1DAAB9A3E3F6CBAFDE81EEB7393333",
+      "D8DC88C77CD2D9FB3F15A6D8CB5A761AAD1DAAB9A3E3F6CBAFDE81EEB7393333",
+      "2725FBBF6C6A725E72DE239ED2A1A72B",
+      "247246D27761498DD9A97C60BA70714D",
+      "C489B75A189137284F5644BC77BDFB05AD1DAAB9A3E3F6CBAFDE81EEB7393333",
+      "0B26809632A7EE40A034794D6C36152CAD1DAAB9A3E3F6CBAFDE81EEB7393333",
+      "83BCF84C93D8E275B3EC041AB22DC87C"
+  ]
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
@@ -68,69 +73,64 @@ const JD_API_HOST = 'https://api.m.jd.com/';
       await jdBeanHome();
     }
   }
-  // for (let i = 0; i < cookiesArr.length; i++) {
-  //   $.index = i + 1;
-  //   if (cookiesArr[i]) {
-  //     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-  //     cookie = cookiesArr[i];
-  //     if ($.newShareCodes.length > 1) {
-  //       console.log(`\n【抢京豆】 ${$.UserName} 去助力排名第一的cookie`);
-  //       // let code = $.newShareCodes[(i + 1) % $.newShareCodes.length]
-  //       // await help(code[0], code[1])
-  //       let code = $.newShareCodes[0];
-  //       await help(code[0], code[1]);
-  //     }
-  //     if (helpAuthor && $.authorCode) {
-  //       console.log(`\n【抢京豆】${$.UserName} 去帮助作者`)
-  //       for (let code of $.authorCode) {
-  //         const helpRes = await help(code.shareCode, code.groupCode);
-  //         if (helpRes && helpRes.data.respCode === 'SG209') {
-  //           break;
-  //         }
-  //       }
-  //     }
-  //     if (helpAuthor && $.authorCode2) {
-  //       for (let code of $.authorCode2) {
-  //         const helpRes = await help(code.shareCode, code.groupCode);
-  //         if (helpRes && helpRes.data.respCode === 'SG209') {
-  //           break;
-  //         }
-  //       }
-  //     }
-  //     for (let j = 1; j < $.newShareCodes.length; j++) {
-  //       console.log(`【抢京豆】${$.UserName} 去助力账号 ${j + 1}`)
-  //       let code = $.newShareCodes[j];
-  //       await help(code[0], code[1])
-  //     }
-  //   }
-  // }
+  for (let i = 0; i < cookiesArr.length; i++) {
+    $.index = i + 1;
+    if (cookiesArr[i]) {
+      cookie = cookiesArr[i];
+      $.canHelp = true;
+      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+      if ($.newShareCodes.length > 1) {
+        console.log(`\n【抢京豆】 ${$.UserName} 去助力排名第一的cookie`);
+        let code = $.newShareCodes[0];
+        if(code[2] && code[2] ===  $.UserName){
+          //不助力自己
+        } else {
+          await help(code[0], code[1]);
+        }
+      }
+      for (let j = 1; j < $.newShareCodes.length && $.canHelp; j++) {
+        let code = $.newShareCodes[j];
+        if(code[2] && code[2] ===  $.UserName){
+          //不助力自己
+        } else {
+          console.log(`【抢京豆】${$.UserName} 去助力账号 ${j + 1}`);
+          await help(code[0], code[1]);
+          await $.wait(2000);
+        }
+      }
+    }
+  }
 })()
-  .catch((e) => {
-    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-  })
-  .finally(() => {
-    $.done();
-  })
+    .catch((e) => {
+      $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
+    })
+    .finally(() => {
+      $.done();
+    })
 
 async function jdBeanHome() {
-  $.doneState = false
-  // for (let i = 0; i < 3; ++i) {
-  //   await doTask2()
-  //   await $.wait(1000)
-  //   if ($.doneState) break
-  // }
-  do {
-    await doTask2()
-    await $.wait(3000)
-  } while (!$.doneState)
-  await $.wait(1000)
-  await award("feeds")
-  await $.wait(1000)
-  await getUserInfo()
-  await $.wait(1000)
-  await getTaskList();
-  await receiveJd2();
-  await showMsg();
+  try {
+    $.doneState = false
+    // for (let i = 0; i < 3; ++i) {
+    //   await doTask2()
+    //   await $.wait(1000)
+    //   if ($.doneState) break
+    // }
+    do {
+      await doTask2()
+      await $.wait(3000)
+    } while (!$.doneState)
+    await $.wait(1000)
+    await award("feeds")
+    await $.wait(1000)
+    await getUserInfo()
+    await $.wait(1000)
+    await getTaskList();
+    await receiveJd2();
+    await showMsg();
+  } catch (e) {
+    $.logErr(e)
+  }
 }
 
 function getRandomInt(min, max) {
@@ -139,39 +139,71 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 function doTask2() {
-    return new Promise(resolve => {
-      const body = {"awardFlag": false, "skuId": `${getRandomInt(10000000,20000000)}`, "source": "feeds", "type": '1'};
-      $.post(taskUrl('beanHomeTask', body), (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${JSON.stringify(err)}`)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data);
-              if (data.code === '0' && data.data){
-                console.log(`任务完成进度：${data.data.taskProgress} / ${data.data.taskThreshold}`)
-                if(data.data.taskProgress === data.data.taskThreshold)
-                  $.doneState = true
-              } else if (data.code === '0' && data.errorCode === 'HT201') {
+  return new Promise(resolve => {
+    const body = {"awardFlag": false, "skuId": `${getRandomInt(10000000,20000000)}`, "source": "feeds", "type": '1'};
+    $.post(taskUrl('beanHomeTask', body), (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (safeGet(data)) {
+            data = JSON.parse(data);
+            if (data.code === '0' && data.data){
+              console.log(`任务完成进度：${data.data.taskProgress} / ${data.data.taskThreshold}`)
+              if(data.data.taskProgress === data.data.taskThreshold)
                 $.doneState = true
-              } else {
-                //HT304风控用户
-                $.doneState = true
-                console.log(`做任务异常：${JSON.stringify(data)}`)
-              }
+            } else if (data.code === '0' && data.errorCode === 'HT201') {
+              $.doneState = true
+            } else {
+              //HT304风控用户
+              $.doneState = true
+              console.log(`做任务异常：${JSON.stringify(data)}`)
             }
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve();
         }
-      })
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
     })
+  })
 }
 
-
+function getAuthorShareCode(url) {
+  return new Promise(resolve => {
+    const options = {
+      url: `${url}?${new Date()}`, "timeout": 10000, headers: {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }
+    };
+    if ($.isNode() && process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
+      const tunnel = require("tunnel");
+      const agent = {
+        https: tunnel.httpsOverHttp({
+          proxy: {
+            host: process.env.TG_PROXY_HOST,
+            port: process.env.TG_PROXY_PORT * 1
+          }
+        })
+      }
+      Object.assign(options, { agent })
+    }
+    $.get(options, async (err, resp, data) => {
+      try {
+        if (err) {
+        } else {
+          if (data) data = JSON.parse(data)
+        }
+      } catch (e) {
+        // $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
+    })
+  })
+}
 function getUserInfo() {
   return new Promise(resolve => {
     $.post(taskUrl('signBeanGroupStageIndex', 'body'), async (err, resp, data) => {
@@ -195,7 +227,7 @@ function getUserInfo() {
                   await help(shareCode, groupCode, 1)
                 }
                 console.log(`\n京东账号${$.index} ${$.nickName || $.UserName} 抢京豆邀请码：${shareCode}\n`);
-                $.newShareCodes.push([shareCode, groupCode])
+                $.newShareCodes.push([shareCode, groupCode, $.UserName])
               }
             }
           }
@@ -223,7 +255,7 @@ function hitGroup() {
             if (data.data.respCode === "SG150") {
               let {shareCode, groupCode} = data.data.signGroupMain
               if (shareCode) {
-                $.newShareCodes.push([shareCode, groupCode])
+                $.newShareCodes.push([shareCode, groupCode, $.UserName])
                 console.log('开团成功')
                 console.log(`\n京东账号${$.index} ${$.nickName || $.UserName} 抢京豆邀请码：${shareCode}\n`);
                 await help(shareCode, groupCode, 1)
@@ -267,7 +299,12 @@ function help(shareCode, groupCode, isTask = 0) {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
-            console.log(`【抢京豆】${data.data.helpToast}`)
+            if (data.code === '0') {
+              console.log(`【抢京豆】${data.data.helpToast}`)
+            }
+            if(data.code === '0' && data.data && data.data.respCode === 'SG209') {
+              $.canHelp = false;
+            }
           }
         }
       } catch (e) {
