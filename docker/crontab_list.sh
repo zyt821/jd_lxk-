@@ -71,6 +71,8 @@
 20 0 * * * node /scripts/jd_twlove.js >> /scripts/logs/jd_twlove.log 2>&1
 #全民摸冰
 6 9,12 * * * node /scripts/jd_mb.js >> /scripts/logs/jd_mb.log 2>&1
+#升级赚京豆
+21 9 * * * node /scripts/jd_MMdou.js >> /scripts/logs/jd_MMdou.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
