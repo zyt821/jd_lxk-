@@ -3,6 +3,7 @@ https://xinrui2-isv.isvjcloud.com/jd-tourism/load_app/load_app.html
 ============Quantumultx===============
 [task_local]
 #全民摸冰
+入口：京东家电-清凉一夏-摸冰领补贴
 6 9,12 * * * jd_mb.js, tag=全民摸冰, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 */
 const $ = new Env('全民摸冰');
