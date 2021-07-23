@@ -2,7 +2,7 @@
 
 https://wbbny.m.jd.com/babelDiy/Zeus/2rtpffK8wqNyPBH6wyUDuBKoAbCt/index.html
 
-cron 12 0,6-23/2 * * * https://raw.githubusercontent.com/smiek2221/scripts/master/jd_summer_movement.js
+cron 12 0,6-23/2 * * * jd_summer_movement.js
 
 */
 
@@ -39,9 +39,16 @@ $.inviteList = [];
 $.secretpInfo = {};
 $.ShInviteList = [];
 $.innerShInviteList = [
-  'H8mphLbwLgz3e4GeFdc0g9GS9KyvaS3S',
-  'H8mphLbwLn_LHtvAULB0thOUapqKwhU',
-  'H8mphLbwLnPnJ8L9XqdUv7O1wfsqrXQ'
+  'H8mphO2sQwmkfoqbFdAzueiSH4g3',
+  'H8mphKz4BE78YIaYFtxci1tsIdE',
+  'H8mphLbwLg-jKIHIQtA10dokJA3OJ42r',
+  'H8mphO2hQQKhd4qYFdMwuftwYZyH',
+  'H8mphLbwLgyrftCTHtIw1ofKAnZ_Cugu',
+  'H8mphLbwLm7HLerMUJF5otsFwOgMh_0',
+  'H8mphL-lRAygd4qSEtQw1xY2LJw',
+  'H8mphLbwLg-netDLRIc0hJrN6KzRHDan',
+  'H8mphO-lQgmgfYOdHsk60-FXXTp1lune',
+  'H8mphDosydwN2crGW5h_1Q'
 ];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -58,8 +65,8 @@ const UUID = UA.split(';') && UA.split(';')[4] || ''
 function randomString(e) {
   e = e || 32;
   let t = "1234567890",
-    a = t.length,
-    n = "";
+      a = t.length,
+      n = "";
   for (i = 0; i < e; i++)
     n += t.charAt(Math.floor(Math.random() * a));
   return n
@@ -71,14 +78,14 @@ function randomString(e) {
     return;
   }
   console.log('活动入口：京东APP-》 首页-》 右边小窗口（点我赢千元）\n' +
-    '邀请好友助力：内部账号自行互助(排名靠前账号得到的机会多)\n' +
-    'SH互助：内部账号自行互助(排名靠前账号得到的机会多),多余的助力次数会默认助力作者内置助力码\n' +
-    '店铺任务 已添加\n' +
-    '新增 入会环境变量 默认不入会\n' +
-    '新增 微信任务\n' +
-    '新增活动火爆不做任务处理\n' +
-    '活动时间：2021-07-08至2021-08-08\n' +
-    '脚本更新时间：2021年7月13日 18点00分\n'
+      '邀请好友助力：内部账号自行互助(排名靠前账号得到的机会多)\n' +
+      'SH互助：内部账号自行互助(排名靠前账号得到的机会多),多余的助力次数会默认助力作者内置助力码\n' +
+      '店铺任务 已添加\n' +
+      '新增 入会环境变量 默认不入会\n' +
+      '新增 微信任务\n' +
+      '新增活动火爆不做任务处理\n' +
+      '活动时间：2021-07-08至2021-08-08\n' +
+      '脚本更新时间：2021年7月13日 18点00分\n'
   );
   if (`${summer_movement_joinjoinjoinhui}` === "true") console.log('您设置了入会\n')
   if (`${summer_movement_HelpHelpHelpFlag}` === "true") console.log('您设置了只执行邀请助力\n')
@@ -94,7 +101,7 @@ function randomString(e) {
 
   console.log('\n\n该脚本启用了[正道的光]模式\n执行 做任务、做店铺任务 会有几率不执行\n本脚本不让任务一次全部做完\n您可以多跑几次\n北京时间18时后是正常模式\n\n🐸\n')
 
-      
+
   console.log(`注意：若执行失败，则请手动删除脚本目录下的“app.*.js”文件，然后重新执行脚本`);
   console.log(`类似 app.5c2472d1.js、app.c7364f20.js 等都删除\n不用每次删 执行失败再删`);
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -135,15 +142,15 @@ function randomString(e) {
       await $.wait(2000);
     }
   }
-  
+
 
 })()
-  .catch((e) => {
-    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-  })
-  .finally(() => {
-    $.done();
-  })
+    .catch((e) => {
+      $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
+    })
+    .finally(() => {
+      $.done();
+    })
 
 
 async function movement() {
@@ -214,7 +221,7 @@ async function movement() {
         }
       }
     }
-    
+
     console.log(`\n做任务\n`);
     if(!$.hotFlag) await takePostRequest('olympicgames_getTaskDetail');
     if(`${summer_movement_HelpHelpHelpFlag}` === "true") return
@@ -261,7 +268,7 @@ async function movement() {
             }else if(data.data && data.data.bizMsg){
               console.log(data.data.bizMsg);
             }else{
-            console.log(JSON.stringify($.callbackInfo));
+              console.log(JSON.stringify($.callbackInfo));
             }
             await $.wait(getRndInteger(1000, 2000));
           } else {
@@ -308,7 +315,7 @@ async function movement() {
         }
       }
     }
-    
+
     //==================================微信任务========================================================================
     $.wxTaskList = [];
     if(!$.hotFlag) await takePostRequest('wxTaskDetail');
@@ -511,7 +518,7 @@ async function dealReturn(type, res) {
   }
   switch (type) {
     case 'olympicgames_home':
-    if (data.code === 0 && data.data && data.data.result) {
+      if (data.code === 0 && data.data && data.data.result) {
         if (data.data['bizCode'] === 0) {
           $.homeData = data.data;
           $.secretpInfo[$.UserName] = true
@@ -878,7 +885,7 @@ function joinjoinjoinhui(url,Referer) {
  * @param count
  * @returns {Buffer}
  */
- function getRandomArrayElements(arr, count) {
+function getRandomArrayElements(arr, count) {
   var shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
   while (i-- > min) {
     index = Math.floor((i + 1) * Math.random());
