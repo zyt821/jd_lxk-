@@ -125,13 +125,12 @@ let joyTokenInfo = {};
   }
 
   if(helpAuthorFlag){
-    let res = [],res2 = [];
-    try{
-      res = await getAuthorShareCode('');
-    }catch (e) {}
+    let res = [
+      "H8mphO2sQwmkfoqbFdAzueiSH4g3",
+      "H8mphKz4BE78YIaYFtxci1tsIdE"
+    ];
     if(!res){res = [];}
-    if(!res2){res2 = [];}
-    let allCodeList = getRandomArrayElements([ ...res, ...res2],[ ...res, ...res2].length);
+    let allCodeList = getRandomArrayElements([ ...res],[ ...res].length);
     if(allCodeList.length >0){
       console.log(`\n******开始助力作者百元守卫战*********\n`);
       for (let i = 0; i < cookiesArr.length; i++) {
