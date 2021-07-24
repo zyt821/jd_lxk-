@@ -82,7 +82,7 @@ $.appId = 10032;
         "D581C63D5041BD6E4329DBEEDC60CA153566BC76B004FFBE32E6C61EBBCB1243"
     ]
     if(HelpAuthorFlag){
-        InviteLists..push(...$.AuthoLists);
+        InviteLists.push(...$.AuthoLists);
     }
     $.InviteLists.push(...$.InviteList);
     for (let i = 0; i < cookiesArr.length; i++) {
