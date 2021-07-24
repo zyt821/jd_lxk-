@@ -185,8 +185,6 @@
 5 0 * * * node /scripts/jd_jx_sign.js >> /scripts/logs/jd_jx_sign.log 2>&1
 #京东签到图形验证
 14 10 * * * node /scripts/jd_sign_graphics.js >> /scripts/logs/jd_sign_graphics.log 2>&1
-#点点券3任务可全部完成
-20 0,20 * * * node /scripts/jd_necklace3.js >> /scripts/logs/jd_necklace3.log 2>&1
 #汪汪乐园
 30 2,20 * * * node /scripts/jd_joy_park.js >> /scripts/logs/jd_joy_park.log 2>&1
 #省钱大赢家之翻翻乐

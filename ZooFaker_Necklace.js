@@ -461,8 +461,8 @@ let utils = {
             i = e.indexOf(t) + t.length,
             o = e.length;
         if ((r = (r = e.slice(i, o).split(".")).map(function (e) {
-                return m.atobPolyfill(e)
-            }))[1] && r[0] && r[2]) {
+            return m.atobPolyfill(e)
+        }))[1] && r[0] && r[2]) {
             var a = r[0].slice(2, 7),
                 s = r[0].slice(7, 9),
                 u = m.xorEncrypt(r[1] || "", a).split("~");
@@ -508,8 +508,8 @@ let utils = {
             var o = m.slice(0);
             for (j = 0; j < 80; j++)
                 w[j] = j < 16 ? s[i + j] : rol(w[j - 3] ^ w[j - 8] ^ w[j - 14] ^ w[j - 16], 1),
-                t = rol(m[0], 5) + f[j / 20 | 0]() + m[4] + w[j] + k[j / 20 | 0] | 0,
-                m[1] = rol(m[1], 30), m.pop(), m.unshift(t);
+                    t = rol(m[0], 5) + f[j / 20 | 0]() + m[4] + w[j] + k[j / 20 | 0] | 0,
+                    m[1] = rol(m[1], 30), m.pop(), m.unshift(t);
             for (j = 0; j < 5; j++) m[j] = m[j] + o[j] | 0;
         };
         t = new DataView(new Uint32Array(m).buffer);
@@ -526,18 +526,18 @@ let utils = {
         for (i = 0; i < s.length; i++)
             if ((c = s.charCodeAt(i)) < 0x80) r.push(c);
             else if (c < 0x800) r.push(0xC0 + (c >> 6 & 0x1F), 0x80 + (c & 0x3F));
-        else {
-            if ((x = c ^ 0xD800) >> 10 == 0) //对四字节UTF-16转换为Unicode
-                c = (x << 10) + (s.charCodeAt(++i) ^ 0xDC00) + 0x10000,
-                r.push(0xF0 + (c >> 18 & 0x7), 0x80 + (c >> 12 & 0x3F));
-            else r.push(0xE0 + (c >> 12 & 0xF));
-            r.push(0x80 + (c >> 6 & 0x3F), 0x80 + (c & 0x3F));
-        };
+            else {
+                if ((x = c ^ 0xD800) >> 10 == 0) //对四字节UTF-16转换为Unicode
+                    c = (x << 10) + (s.charCodeAt(++i) ^ 0xDC00) + 0x10000,
+                        r.push(0xF0 + (c >> 18 & 0x7), 0x80 + (c >> 12 & 0x3F));
+                else r.push(0xE0 + (c >> 12 & 0xF));
+                r.push(0x80 + (c >> 6 & 0x3F), 0x80 + (c & 0x3F));
+            };
         return r;
     },
     gettoken: function () {
         const https = require('https');
-        var body = `content={"appname":"50082","whwswswws":"","jdkey":"-a45046de9fbf-0a4fc8ec9548a7f9","body":{"platform":"1"}}`;
+        var body = `content={"appname":"50082","whwswswws":"","jdkey":"","body":{"platform":"1"}}`;
         return new Promise((resolve, reject) => {
             let options = {
                 hostname: "bh.m.jd.com",
@@ -570,7 +570,7 @@ let utils = {
         var appid = "50082";
         var TouchSession = this.getTouchSession();
         if (!joyytoken || joyytoken_count > 18) {
-            joyytoken = JSON.parse(await this.gettoken(`content={"appname":"${appid}","whwswswws":"","jdkey":"-a45046de9fbf-0a4fc8ec9548a7f9","body":{"platform":"1"}}`))["joyytoken"];
+            joyytoken = JSON.parse(await this.gettoken())["joyytoken"];
             //console.log("第一次请求joyytoken");
             joyytoken_count = 0;
         }
