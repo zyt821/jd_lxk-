@@ -1,4 +1,5 @@
 /*
+https://st.jingxi.com/fortune_island/index2.html
 京喜财富岛
 cron 18 0-23/2 * * * jd_cfd.js
 更新时间：2021-7-13
@@ -6,12 +7,6 @@ cron 18 0-23/2 * * * jd_cfd.js
 
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
-*/
-/*
-  https://st.jingxi.com/fortune_island/index2.html
-
-  18 0-23/2 * * * https://raw.githubusercontent.com/smiek2221/scripts/master/gua_wealth_island.js 财富大陆
-
 */
 //搜索关键字InviteLists，把内置助力码删掉，就是内部助力了，不删就是先助力固定码再内部助力
 // prettier-ignore
@@ -22,7 +17,7 @@ const $ = new Env('京喜财富岛');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 // const notify = $.isNode() ? require('./sendNotify') : '';
 $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
-const UA = `jdpingou;iPhone;4.11.0;${Math.ceil(Math.random()*2+12)}.${Math.ceil(Math.random()*4)};${randomString(40)};`
+let UA = `jdapp;iPhone;10.0.5;${Math.ceil(Math.random()*2+12)}.${Math.ceil(Math.random()*4)};${randomString(40)};`
 function randomString(e) {
     e = e || 32;
     let t = "abcdefhijkmnprstwxyz2345678", a = t.length, n = "";
@@ -32,9 +27,10 @@ function randomString(e) {
 }
 $.InviteList = []
 $.innerInviteList = [];
+const HelpAuthorFlag = true;//是否助力作者SH  true 助力，false 不助力
 
 // 热气球接客 每次运行接客次数
-let serviceNum = 20;// 每次运行接客次数
+let serviceNum = 25;// 每次运行接客次数
 if ($.isNode() && process.env.gua_wealth_island_serviceNum) {
     serviceNum = Number(process.env.gua_wealth_island_serviceNum);
 }
@@ -53,7 +49,8 @@ $.appId = 10032;
 
 !(async () => {
     if (!cookiesArr[0]) {
-        $.msg('【京东账号一】宠汪汪积分兑换奖品失败', '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
+        $.msg('【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
+        return
     }
     console.log(`\n 向财富岛出发
 `)
@@ -65,12 +62,13 @@ $.appId = 10032;
             $.index = i + 1;
             $.isLogin = true;
             console.log(`\n*****开始【京东账号${$.index}】${$.UserName}****\n`);
+            UA = `jdapp;iPhone;10.0.5;${Math.ceil(Math.random()*2+12)}.${Math.ceil(Math.random()*4)};${randomString(40)};`
             await run();
         }
     }
     // 助力
-   //把内置助力码删掉，就是内部助力
-    $.InviteLists = [
+    $.InviteLists =[]
+    $.AuthoLists = [
         "2958A00A747C0FA0E57D547A5506E4948C167C3902F2C804D0E878DF3F86CC49",
         "BABDC3F93EC5D5AF72414039E5DCA6F8C431A57043D21FACC8001C89984F29B2",
         "FA6BEB0ABCE5DAECDD342EAEB3586E5BCBE7A98CC6709CF4057211FDFA610060",
@@ -83,7 +81,9 @@ $.appId = 10032;
         "EC5EDEB580A045BFE08257FF4BF3E245ADB3E7737D4BD09722D59C90DB4CA7A0",
         "D581C63D5041BD6E4329DBEEDC60CA153566BC76B004FFBE32E6C61EBBCB1243"
     ]
-
+    if(HelpAuthorFlag){
+        InviteLists..push(...$.AuthoLists);
+    }
     $.InviteLists.push(...$.InviteList);
     for (let i = 0; i < cookiesArr.length; i++) {
         $.cookie = cookiesArr[i];
@@ -377,7 +377,7 @@ async function sign(){
 
         if($.Aggrtask && $.Aggrtask.Data && $.Aggrtask.Data.Employee && $.Aggrtask.Data.Employee.EmployeeList){
             if($.Aggrtask.Data && $.Aggrtask.Data.Employee && $.Aggrtask.Data.Employee.EmployeeList){
-                console.log(`\n领取邀请奖励`)
+                console.log(`\n领取邀请奖励(${$.Aggrtask.Data.Employee.EmployeeList.length || 0}/${$.Aggrtask.Data.Employee.dwNeedTotalPeople || 0})`)
                 for(let i of $.Aggrtask.Data.Employee.EmployeeList){
                     if(i.dwStatus == 0){
                         let res = await taskGet(`story/helpdraw`, '_cfd_t,bizCode,dwEnv,dwUserId,ptag,source,strZone', `&ptag=&dwUserId=${i.dwId}`)
