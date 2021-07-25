@@ -10,8 +10,12 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.inviteList = [];
 $.byInviteList = [];
 $.groupInviteIdList = [];
-let UA = ``
-let uuid = ``;
+$.appid = 'o2_act';
+let UA = ''
+let UANumber = 'f'
+let UUID = ''
+getUA()
+var uuid = `${UUID}`;
 let joyToken = '';
 let runTime = 1;
 let kt = Date.now()+''+Math.floor(1000 + 8999* Math.random()).toString();
@@ -35,23 +39,20 @@ let joyTokenInfo = {};
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
         return;
     }
-    console.log(`火爆中`);
-    return ;
     for (let i = 0; i < cookiesArr.length; i++) {
-        UA = `jdapp;android;10.0.2;9;${randomString(28)}-73D2164353034363465693662666;network/wifi;model/MI 8;addressid/138087843;aid/0a4fc8ec9548a7f9;oaid/3ac46dd4d42fa41c;osVer/28;appBuild/88569;partner/jingdong;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 9; MI 8 Build/PKQ1.180729.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045715 Mobile Safari/537.36;`
-        uuid = UA.split(";")[4];
+        getUA()
         if (cookiesArr[i]) {
             await injectCKToken();
             runTime = 1;
             $.hotFlag = false;
             $.cookie = `joyytoken=50085${joyToken}; ` + cookiesArr[i];
             //console.log($.cookie);
-            uuid = UA.split(";")[4];//getUUID();
+           var uuid = `${UUID}`;
             $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
             $.index = i + 1;
             $.isLogin = true;
             $.nickName = $.UserName;
-            await TotalBean();
+            await TotalBean()
             console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
             console.log(`\n如有未完成的任务，请多执行几次\n`);
             if (!$.isLogin) {
@@ -619,7 +620,11 @@ async function getPostBody(type) {
         }
     })
 }
-
+function getUA(){
+    UANumber = randomString(5)
+    UA = `jdapp;android;10.0.2;9;${randomString(28)}-${randomString(2)}D2164353034363465693662666;network/wifi;model/MI 8;addressid/138087843;aid/0a4fc8ec9548a7f9;oaid/3ac46dd4d42fa41c;osVer/28;appBuild/${UANumber};partner/jingdong;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 9; MI 8 Build/PKQ1.180729.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045715 Mobile Safari/537.36`
+    UUID = UA.split(';') && UA.split(';')[4] || ''
+}
 /**
  * 随机从一数组里面取
  * @param arr
