@@ -114,7 +114,7 @@ function interact_template_getHomeData(timeout = 0) {
                         else if ([14,6].includes(data.data.result.taskVos[i].taskType)) {
                             //console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)
                             for (let j = 0;j <(data.data.result.userInfo.lotteryNum||0);j++) {
-                                if (appId === "1EFRTxQ") {
+                                if (appId === "1EFVRxg") {
                                     await ts_smashGoldenEggs()
                                 }  else {
                                     await interact_template_getLotteryResult(data.data.result.taskVos[i].taskId);
@@ -169,7 +169,7 @@ function harmony_collectScore(taskToken,taskId,itemId = "",actionType = 0,timeou
                 body : `functionId=${collectScoreFunPrefix}_collectScore&body={"appId":"${appId}","taskToken":"${taskToken}","taskId":${taskId}${itemId ? ',"itemId":"'+itemId+'"' : ''},"actionType":${actionType}&client=wh5&clientVersion=1.0.0`
             }
             //console.log(url.body)
-            //if (appId === "1EFRTxQ") url.body += "&appid=golden-egg"
+            //if (appId === "1EFVRxg") url.body += "&appid=golden-egg"
             $.post(url, async (err, resp, data) => {
                 try {
                     data = JSON.parse(data);
@@ -206,7 +206,7 @@ function interact_template_getLotteryResult(taskId,timeout = 0) {
                 body : `functionId=${lotteryResultFunPrefix}_getLotteryResult&body={"appId":"${appId}"${taskId ? ',"taskId":"'+taskId+'"' : ''}}&client=wh5&clientVersion=1.0.0`
             }
             //console.log(url.body)
-            //if (appId === "1EFRTxQ") url.body = `functionId=ts_getLottery&body={"appId":"${appId}"${taskId ? ',"taskId":"'+taskId+'"' : ''}}&client=wh5&clientVersion=1.0.0&appid=golden-egg`
+            //if (appId === "1EFVRxg") url.body = `functionId=ts_getLottery&body={"appId":"${appId}"${taskId ? ',"taskId":"'+taskId+'"' : ''}}&client=wh5&clientVersion=1.0.0&appid=golden-egg`
             $.post(url, async (err, resp, data) => {
                 try {
                     if (!timeout) console.log('\n开始抽奖')
