@@ -5,7 +5,7 @@ export tswb=""   ##自定义变量 自定义发送的文本内容 如 老弟 你
 // */60 * * * *
 // 自己复制定时
 
-const $ = new Env('柠檬CK检测');
+const $ = new Env('CK检测');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -53,12 +53,6 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
         }
         continue
       }
-
-      
-
-     
-      
-
     }
   }
 if ($.isNode() && allMessage) {
