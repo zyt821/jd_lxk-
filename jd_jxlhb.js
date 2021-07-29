@@ -45,19 +45,22 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
         '活动入口：京喜app-》我的-》京喜领88元红包\n' +
         '助力逻辑：先自己京东账号相互助力，如有剩余助力机会，则助力作者\n' +
         '温馨提示：如提示助力火爆，可尝试寻找京东客服')
-    let res = [
-        "sA0J0amfPeyFqzbgvE-y2gaI74FNyzusXDCrolDtDSl1Ffe2U484vy5GrKcjlRVW",
-        "sA0J0amfPeyFqzbgvE-y2tqRwON31iSASOeFuHYjxoHM5gvo3PFHtKDit6ox2T6N",
-        "sA0J0amfPeyFqzbgvE-y2hiIWClV8YRBnTMgBNSwH39NuyKCdmZ7fteCRWgQCXBF",
-        "sA0J0amfPeyFqzbgvE-y2kuyEmg-wp5x2_BAy4mDJAl1Ffe2U484vy5GrKcjlRVW",
-        "sA0J0amfPeyFqzbgvE-y2olgK5JYS91rt-eb4jCMcYC34nahYK90s2LKux5NytUE",
-        "sA0J0amfPeyFqzbgvE-y2kwK1hQMNklGYZukr1bgRAxo5KmLP7SxTfu6nKX6Y-9A",
-        "sA0J0amfPeyFqzbgvE-y2r0jcuka2nNs28XfLnwrQFKBmmR2p9NU8N9Q_k76AtJd",
-        "sA0J0amfPeyFqzbgvE-y2qn7nwG5hC8Yi1Je215kkT4uN1oWXCwb4S_LZowYKNNP",
-        "sA0J0amfPeyFqzbgvE-y2ggBcwceuB7bZb3cq2tWH4fKfUsyeq5_JbTM6XoxkX90",
-        "sA0J0amfPeyFqzbgvE-y2q5ZlUewN6DWBt1BII3h8QWkRU2jxVAmNkBoZGHiEaQR",
-        "sA0J0amfPeyFqzbgvE-y2pL_SCqdayM24TdBmzUymvk"
-    ]
+    let res = {
+        "codes":[
+                "sA0J0amfPeyFqzbgvE-y2gaI74FNyzusXDCrolDtDSl1Ffe2U484vy5GrKcjlRVW",
+                "sA0J0amfPeyFqzbgvE-y2tqRwON31iSASOeFuHYjxoHM5gvo3PFHtKDit6ox2T6N",
+                "sA0J0amfPeyFqzbgvE-y2hiIWClV8YRBnTMgBNSwH39NuyKCdmZ7fteCRWgQCXBF",
+                "sA0J0amfPeyFqzbgvE-y2kuyEmg-wp5x2_BAy4mDJAl1Ffe2U484vy5GrKcjlRVW",
+                "sA0J0amfPeyFqzbgvE-y2olgK5JYS91rt-eb4jCMcYC34nahYK90s2LKux5NytUE",
+                "sA0J0amfPeyFqzbgvE-y2kwK1hQMNklGYZukr1bgRAxo5KmLP7SxTfu6nKX6Y-9A",
+                "sA0J0amfPeyFqzbgvE-y2r0jcuka2nNs28XfLnwrQFKBmmR2p9NU8N9Q_k76AtJd",
+                "sA0J0amfPeyFqzbgvE-y2qn7nwG5hC8Yi1Je215kkT4uN1oWXCwb4S_LZowYKNNP",
+                "sA0J0amfPeyFqzbgvE-y2ggBcwceuB7bZb3cq2tWH4fKfUsyeq5_JbTM6XoxkX90",
+                "sA0J0amfPeyFqzbgvE-y2q5ZlUewN6DWBt1BII3h8QWkRU2jxVAmNkBoZGHiEaQR",
+                "sA0J0amfPeyFqzbgvE-y2pL_SCqdayM24TdBmzUymvk"
+                ],
+        "activeId":"489177"
+    }
     if (res && res.activeId) $.activeId = res.activeId;
     $.authorMyShareIds = [...((res && res.codes) || [])];
     //开启红包,获取互助码
