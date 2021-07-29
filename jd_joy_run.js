@@ -91,7 +91,7 @@ if ($.isNode()) {
     if (invite_pins.length > 0) {
       invite_pins.push($.getdata('jd2_joy_invite_pin'))
     } else {
-      invite_pins = [];
+      invite_pins = ["18237091240_p","pluto.5218_m"];
       invite_pins.push($.getdata('jd2_joy_invite_pin'));
     }
   }
@@ -103,7 +103,7 @@ if ($.isNode()) {
     if (run_pins.length > 0) {
       run_pins.push($.getdata('jd2_joy_run_pin'))
     } else {
-      run_pins = [];
+      run_pins = ["18237091240_p","pluto.5218_m"];
       run_pins.push($.getdata('jd2_joy_run_pin'));
     }
   }
