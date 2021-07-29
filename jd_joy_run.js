@@ -39,22 +39,21 @@ $.post = zooFaker.injectToRequest2($.post.bind($));
 //宠汪汪赛跑所需token，默认读取作者服务器的
 //需自行抓包，宠汪汪小程序获取token，点击`发现`或`我的`，寻找`^https:\/\/draw\.jdfcloud\.com(\/mirror)?\/\/api\/user\/user\/detail\?openId=`获取token
 let jdJoyRunToken = '';
-
+let jdJoyRunHelpMyself = false;// 是否内部账号互助
+if ($.isNode() && process.env.JOY_RUN_HELP_MYSELF) {
+  jdJoyRunHelpMyself = process.env.JOY_RUN_HELP_MYSELF;
+}
 const isRequest = typeof $request != "undefined"
 const JD_BASE_API = `https://draw.jdfcloud.com//pet`;
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : {};
 //下面给出好友邀请助力的示例填写规则
-let invite_pins = [];
+let invite_pins = ["18237091240_p,pluto.5218_m,jd_50f2be46743fc,15082992273_p,jd_680c996309fbf,jd_5cd15c4b0807c,jd_TTcYfwuzDbnh,c15639985031,jd_544cacc7b14ef,313333079-954679,游林yl,doudou123454321,920519087_m,daozisi10996,18374991542_p,18368343571_p,13168885005_p,jd_7bfaae44697b8,805214833_m,a97500696,13681618779_p,jd_5ff0149a704ed,1839512989_m,jd_nTMLFAhCniPv,jd_6d1f53ef83341,wdmEyBQUqAKWZM,jd_48a94eeaeb8aa,lidonglei1,jd_5e0360af58af5,jd_5d893d2dcd170,jd_IscTBsCvIYKz,jd_uiXUlnyrhZhs,jd_722611448b46e,jd_7c963de1a4a00,jd_6874e804fc32f,邵帅19920110,芬芳的空气,jd_ikuMIXoFLcXF,jd_taOSHquozbiv,jiazhou84,jd_JGDpGEbPZqkq,zhu_hua82,jd_73f207dc7c342,1005081460xb,jd_7ec1861ff2491,呵呵6990,jd_49a89d7983021,jd_4689344dcacbd,jd_76aa0bbb2511f,蓝色的少年,蓝坊文化,董小萌Mario,jd_DhLpMtDOUJqG,jd_IkIiGmrNndWo,丶灬陌然,18237091240_p,jd_IkIiGmrNndWo,wdmEyBQUqAKWZM,a97500696,pluto.5218_m,jd_IscTBsCvIYKz,jd_680c996309fbf,zhu_hua82,丶灬陌然,jd_6d1f53ef83341,jd_7ec1861ff2491,jd_48a94eeaeb8aa,c15639985031,jd_7c963de1a4a00,jd_6874e804fc32f,jd_76aa0bbb2511f,daozisi10996,jd_DhLpMtDOUJqG,jd_4689344dcacbd,jd_5e0360af58af5,jd_722611448b46e,jd_5cd15c4b0807c,董小萌Mario,jd_uiXUlnyrhZhs,jd_ikuMIXoFLcXF,18237091240_p,呵呵6990,jd_TTcYfwuzDbnh,lidonglei1,13681618779_p,jd_73f207dc7c342,jd_7bfaae44697b8,1005081460xb,jd_50f2be46743fc,18368343571_p,15082992273_p,jd_5ff0149a704ed,邵帅19920110,13168885005_p,18374991542_p,jd_5d893d2dcd170,jd_544cacc7b14ef,jd_49a89d7983021,蓝坊文化,蓝色的少年,游林yl,jiazhou84,920519087_m,芬芳的空气,jd_taOSHquozbiv,jd_nTMLFAhCniPv,313333079-954679,805214833_m,doudou123454321,jd_JGDpGEbPZqkq,1839512989_m,jd_6f5e8ee8f9429,18018982871_p,jd_YWuWKnYitefP,亮亮068,jd_CZZCpsNCDDoY,jd_7339f188c50ac,jd_4e67dd543c342,sclspc,jd_6fb63d0a4f599,jd_ObHjbnRenQhF,jd_AHLAKpHUNqWH,18780717220_p,小小雷神,kelanlee,52612974-336953,jd_44f6a599c67d9,jd_46d498f5c2cf9,咦噜哈噜咦"];
 //下面给出好友赛跑助力的示例填写规则
-//"zhaosen2580", "jd_47ee22449e303", "jd_6c5e39478ec3b", "jd_4346918b58d6e", "liuz9988", "88489948", "jd_61f1269fd3236"
-let run_pins = [];
+let run_pins = ["18237091240_p,pluto.5218_m,jd_50f2be46743fc,15082992273_p,jd_680c996309fbf,jd_5cd15c4b0807c,jd_TTcYfwuzDbnh,c15639985031,jd_544cacc7b14ef,313333079-954679,游林yl,doudou123454321,920519087_m,daozisi10996,18374991542_p,18368343571_p,13168885005_p,jd_7bfaae44697b8,805214833_m,a97500696,13681618779_p,jd_5ff0149a704ed,1839512989_m,jd_nTMLFAhCniPv,jd_6d1f53ef83341,wdmEyBQUqAKWZM,jd_48a94eeaeb8aa,lidonglei1,jd_5e0360af58af5,jd_5d893d2dcd170,jd_IscTBsCvIYKz,jd_uiXUlnyrhZhs,jd_722611448b46e,jd_7c963de1a4a00,jd_6874e804fc32f,邵帅19920110,芬芳的空气,jd_ikuMIXoFLcXF,jd_taOSHquozbiv,jiazhou84,jd_JGDpGEbPZqkq,zhu_hua82,jd_73f207dc7c342,1005081460xb,jd_7ec1861ff2491,呵呵6990,jd_49a89d7983021,jd_4689344dcacbd,jd_76aa0bbb2511f,蓝色的少年,蓝坊文化,董小萌Mario,jd_DhLpMtDOUJqG,jd_IkIiGmrNndWo,丶灬陌然,18237091240_p,jd_IkIiGmrNndWo,wdmEyBQUqAKWZM,a97500696,pluto.5218_m,jd_IscTBsCvIYKz,jd_680c996309fbf,zhu_hua82,丶灬陌然,jd_6d1f53ef83341,jd_7ec1861ff2491,jd_48a94eeaeb8aa,c15639985031,jd_7c963de1a4a00,jd_6874e804fc32f,jd_76aa0bbb2511f,daozisi10996,jd_DhLpMtDOUJqG,jd_4689344dcacbd,jd_5e0360af58af5,jd_722611448b46e,jd_5cd15c4b0807c,董小萌Mario,jd_uiXUlnyrhZhs,jd_ikuMIXoFLcXF,18237091240_p,呵呵6990,jd_TTcYfwuzDbnh,lidonglei1,13681618779_p,jd_73f207dc7c342,jd_7bfaae44697b8,1005081460xb,jd_50f2be46743fc,18368343571_p,15082992273_p,jd_5ff0149a704ed,邵帅19920110,13168885005_p,18374991542_p,jd_5d893d2dcd170,jd_544cacc7b14ef,jd_49a89d7983021,蓝坊文化,蓝色的少年,游林yl,jiazhou84,920519087_m,芬芳的空气,jd_taOSHquozbiv,jd_nTMLFAhCniPv,313333079-954679,805214833_m,doudou123454321,jd_JGDpGEbPZqkq,1839512989_m,jd_6f5e8ee8f9429,18018982871_p,jd_YWuWKnYitefP,亮亮068,jd_CZZCpsNCDDoY,jd_7339f188c50ac,jd_4e67dd543c342,sclspc,jd_6fb63d0a4f599,jd_ObHjbnRenQhF,jd_AHLAKpHUNqWH,18780717220_p,小小雷神,kelanlee,52612974-336953,jd_44f6a599c67d9,jd_46d498f5c2cf9,咦噜哈噜咦"];
 //friendsArr内置太多会导致IOS端部分软件重启,可PR过来(此处目的:帮别人助力可得30g狗粮)
-let friendsArr = []
-const JOY_RUN_HELP_MYSELF = true;// 每次运行接客次数
-if ($.isNode() && process.env.JOY_RUN_HELP_MYSELF) {
-  JOY_RUN_HELP_MYSELF = process.env.gua_wealth_island_serviceNum;
-}
+let friendsArr = ["18237091240_p,pluto.5218_m,jd_50f2be46743fc,15082992273_p,jd_680c996309fbf,jd_5cd15c4b0807c,jd_TTcYfwuzDbnh,c15639985031,jd_544cacc7b14ef,313333079-954679,游林yl,doudou123454321,920519087_m,daozisi10996,18374991542_p,18368343571_p,13168885005_p,jd_7bfaae44697b8,805214833_m,a97500696,13681618779_p,jd_5ff0149a704ed,1839512989_m,jd_nTMLFAhCniPv,jd_6d1f53ef83341,wdmEyBQUqAKWZM,jd_48a94eeaeb8aa,lidonglei1,jd_5e0360af58af5,jd_5d893d2dcd170,jd_IscTBsCvIYKz,jd_uiXUlnyrhZhs,jd_722611448b46e,jd_7c963de1a4a00,jd_6874e804fc32f,邵帅19920110,芬芳的空气,jd_ikuMIXoFLcXF,jd_taOSHquozbiv,jiazhou84,jd_JGDpGEbPZqkq,zhu_hua82,jd_73f207dc7c342,1005081460xb,jd_7ec1861ff2491,呵呵6990,jd_49a89d7983021,jd_4689344dcacbd,jd_76aa0bbb2511f,蓝色的少年,蓝坊文化,董小萌Mario,jd_DhLpMtDOUJqG,jd_IkIiGmrNndWo,丶灬陌然,18237091240_p,jd_IkIiGmrNndWo,wdmEyBQUqAKWZM,a97500696,pluto.5218_m,jd_IscTBsCvIYKz,jd_680c996309fbf,zhu_hua82,丶灬陌然,jd_6d1f53ef83341,jd_7ec1861ff2491,jd_48a94eeaeb8aa,c15639985031,jd_7c963de1a4a00,jd_6874e804fc32f,jd_76aa0bbb2511f,daozisi10996,jd_DhLpMtDOUJqG,jd_4689344dcacbd,jd_5e0360af58af5,jd_722611448b46e,jd_5cd15c4b0807c,董小萌Mario,jd_uiXUlnyrhZhs,jd_ikuMIXoFLcXF,18237091240_p,呵呵6990,jd_TTcYfwuzDbnh,lidonglei1,13681618779_p,jd_73f207dc7c342,jd_7bfaae44697b8,1005081460xb,jd_50f2be46743fc,18368343571_p,15082992273_p,jd_5ff0149a704ed,邵帅19920110,13168885005_p,18374991542_p,jd_5d893d2dcd170,jd_544cacc7b14ef,jd_49a89d7983021,蓝坊文化,蓝色的少年,游林yl,jiazhou84,920519087_m,芬芳的空气,jd_taOSHquozbiv,jd_nTMLFAhCniPv,313333079-954679,805214833_m,doudou123454321,jd_JGDpGEbPZqkq,1839512989_m,jd_6f5e8ee8f9429,18018982871_p,jd_YWuWKnYitefP,亮亮068,jd_CZZCpsNCDDoY,jd_7339f188c50ac,jd_4e67dd543c342,sclspc,jd_6fb63d0a4f599,jd_ObHjbnRenQhF,jd_AHLAKpHUNqWH,18780717220_p,小小雷神,kelanlee,52612974-336953,jd_44f6a599c67d9,jd_46d498f5c2cf9,咦噜哈噜咦"];
+
 
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
@@ -91,7 +90,7 @@ if ($.isNode()) {
     if (invite_pins.length > 0) {
       invite_pins.push($.getdata('jd2_joy_invite_pin'))
     } else {
-      invite_pins = ["18237091240_p","pluto.5218_m"];
+      invite_pins = [];
       invite_pins.push($.getdata('jd2_joy_invite_pin'));
     }
   }
@@ -103,7 +102,7 @@ if ($.isNode()) {
     if (run_pins.length > 0) {
       run_pins.push($.getdata('jd2_joy_run_pin'))
     } else {
-      run_pins = ["18237091240_p","pluto.5218_m"];
+      run_pins = [];
       run_pins.push($.getdata('jd2_joy_run_pin'));
     }
   }
@@ -132,7 +131,7 @@ async function main() {
       // const zooFaker = require('./utils/JDJRValidator_Pure');
       // $.validate = await zooFaker.injectToRequest()
       if ($.isNode()) {
-        if (JOY_RUN_HELP_MYSELF) {
+        if (jdJoyRunHelpMyself) {
           console.log(`\n赛跑会先给账号内部助力,如您当前账户有剩下助力机会则为lx0301作者助力\n`)
           let my_run_pins = [];
           Object.values(jdCookieNode).filter(item => item.match(/pt_pin=([^; ]+)(?=;?)/)).map(item => my_run_pins.push(decodeURIComponent(item.match(/pt_pin=([^; ]+)(?=;?)/)[1])))
