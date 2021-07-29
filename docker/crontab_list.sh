@@ -51,6 +51,8 @@
 7 12,13 * * * node /scripts/jd_summer_movement_cardAndmap.js >> /scripts/logs/jd_summer_movement_cardAndmap.log 2>&1
 #燃动夏季下注
 11 12,20 * * * node /scripts/jd_summer_movement_bet.js >> /scripts/logs/jd_summer_movement_bet.log 2>&1
+#燃动夏季领红包
+45 16,20 * * * node /scripts/jd_summer_movement_red.js >> /scripts/logs/jd_summer_movement_red.log 2>&1
 # 欧洲杯签到
 55 59 9  * * * node /scripts/jd_europeancup.js >> /scripts/logs/jd_europeancup.log 2>&1
 #东东电竞经理
