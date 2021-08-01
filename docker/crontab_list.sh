@@ -77,6 +77,8 @@
 23 0,9 24-27 7 * node /scripts/jd_productZ4Brand.js >> /scripts/logs/jd_productZ4Brand.log 2>&1
 #京喜领88元红包
 4 2,10 * * * node /scripts/jd_jxlhb.js >> /scripts/logs/jd_jxlhb.log 2>&1
+#集胜券点亮金牌
+34 3,4 1-8 8 * node /scripts/jd_necklacecard.js >> /scripts/logs/jd_necklacecard.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
