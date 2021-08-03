@@ -8,14 +8,11 @@
 [task_local]
 #京喜领88元红包
 4 2,10 * * * jd_jxlhb.js, tag=京喜领88元红包, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
-
 ==============Loon==============
 [Script]
-cron "4 2,10 * * *" script-path=/jd_jxlhb.js,tag=京喜领88元红包
-
+cron "4 2,10 * * *" script-path=jd_jxlhb.js,tag=京喜领88元红包
 ================Surge===============
-京喜领88元红包 = type=cron,cronexp="4 2,10 * * *",wake-system=1,timeout=3600,script-path=/jd_jxlhb.js
-
+京喜领88元红包 = type=cron,cronexp="4 2,10 * * *",wake-system=1,timeout=3600,script-path=jd_jxlhb.js
 ===============小火箭==========
 京喜领88元红包 = type=cron,script-path=jd_jxlhb.js, cronexpr="4 2,10 * * *", timeout=3600, enable=true
  */
@@ -47,18 +44,18 @@ const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
         '温馨提示：如提示助力火爆，可尝试寻找京东客服')
     let res = {
         "codes":[
-                "sA0J0amfPeyFqzbgvE-y2gaI74FNyzusXDCrolDtDSl1Ffe2U484vy5GrKcjlRVW",
-                "sA0J0amfPeyFqzbgvE-y2tqRwON31iSASOeFuHYjxoHM5gvo3PFHtKDit6ox2T6N",
-                "sA0J0amfPeyFqzbgvE-y2hiIWClV8YRBnTMgBNSwH39NuyKCdmZ7fteCRWgQCXBF",
-                "sA0J0amfPeyFqzbgvE-y2kuyEmg-wp5x2_BAy4mDJAl1Ffe2U484vy5GrKcjlRVW",
-                "sA0J0amfPeyFqzbgvE-y2olgK5JYS91rt-eb4jCMcYC34nahYK90s2LKux5NytUE",
-                "sA0J0amfPeyFqzbgvE-y2kwK1hQMNklGYZukr1bgRAxo5KmLP7SxTfu6nKX6Y-9A",
-                "sA0J0amfPeyFqzbgvE-y2r0jcuka2nNs28XfLnwrQFKBmmR2p9NU8N9Q_k76AtJd",
-                "sA0J0amfPeyFqzbgvE-y2qn7nwG5hC8Yi1Je215kkT4uN1oWXCwb4S_LZowYKNNP",
-                "sA0J0amfPeyFqzbgvE-y2ggBcwceuB7bZb3cq2tWH4fKfUsyeq5_JbTM6XoxkX90",
-                "sA0J0amfPeyFqzbgvE-y2q5ZlUewN6DWBt1BII3h8QWkRU2jxVAmNkBoZGHiEaQR",
-                "sA0J0amfPeyFqzbgvE-y2pL_SCqdayM24TdBmzUymvk"
-                ],
+            "sA0J0amfPeyFqzbgvE-y2gaI74FNyzusXDCrolDtDSl1Ffe2U484vy5GrKcjlRVW",
+            "sA0J0amfPeyFqzbgvE-y2tqRwON31iSASOeFuHYjxoHM5gvo3PFHtKDit6ox2T6N",
+            "sA0J0amfPeyFqzbgvE-y2hiIWClV8YRBnTMgBNSwH39NuyKCdmZ7fteCRWgQCXBF",
+            "sA0J0amfPeyFqzbgvE-y2kuyEmg-wp5x2_BAy4mDJAl1Ffe2U484vy5GrKcjlRVW",
+            "sA0J0amfPeyFqzbgvE-y2olgK5JYS91rt-eb4jCMcYC34nahYK90s2LKux5NytUE",
+            "sA0J0amfPeyFqzbgvE-y2kwK1hQMNklGYZukr1bgRAxo5KmLP7SxTfu6nKX6Y-9A",
+            "sA0J0amfPeyFqzbgvE-y2r0jcuka2nNs28XfLnwrQFKBmmR2p9NU8N9Q_k76AtJd",
+            "sA0J0amfPeyFqzbgvE-y2qn7nwG5hC8Yi1Je215kkT4uN1oWXCwb4S_LZowYKNNP",
+            "sA0J0amfPeyFqzbgvE-y2ggBcwceuB7bZb3cq2tWH4fKfUsyeq5_JbTM6XoxkX90",
+            "sA0J0amfPeyFqzbgvE-y2q5ZlUewN6DWBt1BII3h8QWkRU2jxVAmNkBoZGHiEaQR",
+            "sA0J0amfPeyFqzbgvE-y2pL_SCqdayM24TdBmzUymvk"
+        ],
         "activeId":"489177"
     }
     if (res && res.activeId) $.activeId = res.activeId;
@@ -177,16 +174,18 @@ function getUserInfo() {
                     // console.log('获取助力码', data)
                     data = JSON.parse(data)
                     if (data.iRet === 0) {
-                        $.grades = [];
+                        $.grades = []
+                        $.helpNum = ''
                         let grades = data.Data.gradeConfig
                         for(let key of Object.keys(grades)){
                             let vo = grades[key]
                             $.grades.push(vo.dwGrade)
+                            $.helpNum = vo.dwHelpTimes
                         }
-                        console.log(`获取助力码成功：${data.Data.strUserPin}\n`);
-                        if (data.Data['dwCurrentGrade'] >= $.grades[$.grades.length - 1]) {
+                        if (data.Data.dwHelpedTimes === $.helpNum) {
                             console.log(`${$.grades[$.grades.length - 1]}个阶梯红包已全部拆完\n`)
                         } else {
+                            console.log(`获取助力码成功：${data.Data.strUserPin}\n`);
                             if (data.Data.strUserPin) {
                                 $.packetIdArr.push({
                                     strUserPin: data.Data.strUserPin,
@@ -341,9 +340,9 @@ function taskurl(function_path, body = '', stk) {
 function TotalBean() {
     return new Promise(async resolve => {
         const options = {
-            url: "https://wq.jd.com/user_new/info/GetJDUserInfoUnion?sceneval=2",
+            url: "https://me-api.jd.com/user_new/info/GetJDUserInfoUnion",
             headers: {
-                Host: "wq.jd.com",
+                Host: "me-api.jd.com",
                 Accept: "*/*",
                 Connection: "keep-alive",
                 Cookie: cookie,
@@ -360,11 +359,11 @@ function TotalBean() {
                 } else {
                     if (data) {
                         data = JSON.parse(data);
-                        if (data['retcode'] === 1001) {
+                        if (data['retcode'] === "1001") {
                             $.isLogin = false; //cookie过期
                             return;
                         }
-                        if (data['retcode'] === 0 && data.data && data.data.hasOwnProperty("userInfo")) {
+                        if (data['retcode'] === "0" && data.data && data.data.hasOwnProperty("userInfo")) {
                             $.nickName = data.data.userInfo.baseInfo.nickname;
                         }
                     } else {
