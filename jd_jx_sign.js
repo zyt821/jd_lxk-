@@ -3,17 +3,21 @@
 cron 20 1 * * * jd_jx_sign.js
 更新时间：2021-7-31
 活动入口：京喜APP-我的-京喜签到
+
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ============Quantumultx===============
 [task_local]
 #京喜签到
 20 1 * * * jd_jx_sign.js, tag=京喜签到, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jxcfd.png, enabled=true
+
 ================Loon==============
 [Script]
 cron "20 1 * * *" script-path=jd_jx_sign.js,tag=京喜签到
+
 ===============Surge=================
 京喜签到 = type=cron,cronexp="20 1 * * *",wake-system=1,timeout=3600,script-path=jd_jx_sign.js
+
 ============小火箭=========
 京喜签到 = type=cron,script-path=jd_jx_sign.js, cronexpr="20 1 * * *", timeout=3600, enable=true
  */
@@ -369,9 +373,9 @@ function randomString() {
 function TotalBean() {
   return new Promise(async resolve => {
     const options = {
-      url: "https://me-api.jd.com/user_new/info/GetJDUserInfoUnion",
+      url: "https://wq.jd.com/user_new/info/GetJDUserInfoUnion?sceneval=2",
       headers: {
-        Host: "me-api.jd.com",
+        Host: "wq.jd.com",
         Accept: "*/*",
         Connection: "keep-alive",
         Cookie: cookie,
@@ -388,11 +392,11 @@ function TotalBean() {
         } else {
           if (data) {
             data = JSON.parse(data);
-            if (data['retcode'] === "1001") {
+            if (data['retcode'] === 1001) {
               $.isLogin = false; //cookie过期
               return;
             }
-            if (data['retcode'] === "0" && data.data && data.data.hasOwnProperty("userInfo")) {
+            if (data['retcode'] === 0 && data.data && data.data.hasOwnProperty("userInfo")) {
               $.nickName = data.data.userInfo.baseInfo.nickname;
             }
           } else {
