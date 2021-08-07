@@ -59,8 +59,8 @@
 0 0-23/2 * * * node /scripts/jd_EsportsManager.js >> /scripts/logs/jd_EsportsManager.log 2>&1
 #星系牧场
 30 7 * * * node /scripts/jd_qqxing.js >> /scripts/logs/jd_qqxing.log 2>&1
-#7月粉丝互动
-1 8 * * * node /scripts/jd_wxFans.js >> /scripts/logs/jd_wxFans.log 2>&1
+#8月粉丝互动
+34 6,18 * * * node /scripts/jd_wxFans.js >> /scripts/logs/jd_wxFans.log 2>&1
 #天天优惠大乐透
 15 6 * * * node /scripts/jd_DrawEntrance.js >> /scripts/logs/jd_DrawEntrance.log 2>&1
 #特务Z行动-星小店
@@ -79,6 +79,8 @@
 4 2,10 * * * node /scripts/jd_jxlhb.js >> /scripts/logs/jd_jxlhb.log 2>&1
 #集胜券点亮金牌
 34 3,4 1-8 8 * node /scripts/jd_necklacecard.js >> /scripts/logs/jd_necklacecard.log 2>&1
+#七夕情报局
+36 0,10,21 4-15 8 * node /scripts/jd_qxqbj.js >> /scripts/logs/jd_qxqbj.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
@@ -120,6 +122,8 @@
 12 * * * * node /scripts/jd_pigPet.js >> /scripts/logs/jd_pigPet.log 2>&1
 # 点点券
 20 0,20 * * * node /scripts/jd_necklace.js >> /scripts/logs/jd_necklace.log 2>&1
+#点点券二代目
+20 0,20 * * * node /scripts/jd_necklace2.js >> /scripts/logs/jd_necklace2.log 2>&1
 # 京喜工厂
 20 * * * * node /scripts/jd_dreamFactory.js >> /scripts/logs/jd_dreamFactory.log 2>&1
 # 东东小窝
