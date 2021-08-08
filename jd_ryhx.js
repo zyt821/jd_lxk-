@@ -120,7 +120,7 @@ function interact_template_getHomeData(timeout = 0) {
             //签到
             if (data.data.result.taskVos[i].taskName === '邀请好友助力') {
               console.log(`您的好友助力码为:${data.data.result.taskVos[i].assistTaskDetailVo.taskToken}`)
-              $.newShareCodes.push(${data.data.result.taskVos[i].assistTaskDetailVo.taskToken});
+              $.newShareCodes.push(data.data.result.taskVos[i].assistTaskDetailVo.taskToken);
               for (let code of $.newShareCodes) {
                 if (!code) continue
                 await harmony_collectScore(code, data.data.result.taskVos[i].taskId);
