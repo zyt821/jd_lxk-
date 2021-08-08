@@ -81,6 +81,8 @@
 34 3,4 1-8 8 * node /scripts/jd_necklacecard.js >> /scripts/logs/jd_necklacecard.log 2>&1
 #七夕情报局
 36 0,10,21 4-15 8 * node /scripts/jd_qxqbj.js >> /scripts/logs/jd_qxqbj.log 2>&1
+#5G超级盲盒
+0 0,1-23/3 * * * node /scripts/jd_mohe.js >> /scripts/logs/jd_mohe.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
