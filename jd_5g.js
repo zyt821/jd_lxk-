@@ -28,7 +28,7 @@ const $ = new Env('京东手机狂欢城');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-
+const jfcj = false; //是否进行积分抽奖，默认否，如需抽奖改为true
 //IOS等用户直接用NobyDa的jd cookie
 
 let cookiesArr = [], cookie = '', message = '', allMessage = '';
@@ -650,10 +650,14 @@ function getListIntegral() {
           if (data.code === 200) {
             $.integralCount = data.data.integralNum || 0;//累计活动积分
             message += `累计获得积分：${$.integralCount}\n`;
-            console.log(`开始抽奖，当前积分可抽奖${parseInt($.integralCount / 50)}次\n`);
-            for (let i = 0; i < parseInt($.integralCount / 50); i ++) {
-              await lottery();
-              await $.wait(500);
+            if(jfcj){
+              console.log(`开始抽奖，当前积分可抽奖${parseInt($.integralCount / 50)}次\n`);
+              for (let i = 0; i < parseInt($.integralCount / 50); i ++) {
+                await lottery();
+                await $.wait(500);
+              }
+            }else {
+              console.log(`当前脚本未开启积分抽奖，如需抽奖请至脚本头部改变量jfcj默认值为true\n`);
             }
           } else {
             console.log(`integralRecord失败：${JSON.stringify(data)}`);
