@@ -91,6 +91,8 @@
 0 8,12 * * * node /scripts/jd_wish.js >> /scripts/logs/jd_wish.log 2>&1
 #来电好物季
 35 8 * * * node /scripts/jd_ldhwj.js >> /scripts/logs/jd_ldhwj.log 2>&1
+#京东手机狂欢城
+0 0-18/6 * * * node /scripts/jd_5g.js >> /scripts/logs/jd_5g.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
