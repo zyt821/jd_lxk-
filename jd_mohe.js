@@ -1,18 +1,21 @@
 /*
 5G超级盲盒，可抽奖获得京豆，建议在凌晨0点时运行脚本，白天抽奖基本没有京豆，4小时运行一次收集热力值
 活动地址: https://blindbox5g.jd.com
-活动时间：2021-8-2到2021-10-29
-更新时间：2021-8-8 19:00
+活动时间：2021-06-2到2021-07-31
+更新时间：2021-06-3 12:00
 脚本兼容: QuantumultX, Surge,Loon, JSBox, Node.js
 =================================Quantumultx=========================
 [task_local]
 #5G超级盲盒
 0 0,1-23/3 * * * jd_mohe.js, tag=5G超级盲盒, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+
 =================================Loon===================================
 [Script]
 cron "0 0,1-23/3 * * *" script-path=jd_mohe.js,tag=5G超级盲盒
+
 ===================================Surge================================
 5G超级盲盒 = type=cron,cronexp="0 0,1-23/3 * * *",wake-system=1,timeout=3600,script-path=jd_mohe.js
+
 ====================================小火箭=============================
 5G超级盲盒 = type=cron,script-path=jd_mohe.js, cronexpr="0 0,1-23/3 * * *", timeout=3600, enable=true
  */
@@ -44,9 +47,6 @@ $.shareId = [];
       '活动地址: https://blindbox5g.jd.com\n' +
       '活动时间：2021-8-2到2021-10-29\n' +
       '更新时间：2021-8-8 19:00');
-  $.http.get({url: 'https://purge.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/jd_shareCodes.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
-  await $.wait(1000)
-  await updateShareCodesCDN('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/jd_shareCodes.json')
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -78,7 +78,7 @@ $.shareId = [];
     if ($.isNode()) await notify.sendNotify($.name, allMessage);
     $.msg($.name, '', allMessage, {"open-url": "https://blindbox5g.jd.com"})
   }
-  $.shareId = [...($.shareId || []), ...($.updatePkActivityIdRes || [])];
+  $.shareId = [...($.shareId || [])];
   for (let v = 0; v < cookiesArr.length; v++) {
     cookie = cookiesArr[v];
     $.index = v + 1;
@@ -127,7 +127,7 @@ async function task0() {
 function addShare(shareId) {
   return new Promise((resolve) => {
     const body = {"shareId":shareId,"apiMapping":"/active/addShare"}
-    $.get(taskurl(body), (err, resp, data) => {
+    $.post(taskurl(body), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -151,7 +151,7 @@ function addShare(shareId) {
 function conf() {
   return new Promise((resolve) => {
     const body = {"apiMapping":"/active/conf"};
-    $.get(taskurl(body), (err, resp, data) => {
+    $.post(taskurl(body), (err, resp, data) => {
       try {
         data = JSON.parse(data);
       } catch (e) {
@@ -165,7 +165,7 @@ function conf() {
 function homeGoBrowse(type, id) {
   return new Promise((resolve) => {
     const body = {"type":type,"id":id,"apiMapping":"/active/homeGoBrowse"}
-    $.get(taskurl(body), (err, resp, data) => {
+    $.post(taskurl(body), (err, resp, data) => {
       try {
         data = JSON.parse(data);
       } catch (e) {
@@ -179,7 +179,7 @@ function homeGoBrowse(type, id) {
 function taskHomeCoin(type, id) {
   return new Promise((resolve) => {
     const body = {"type":type,"id":id,"apiMapping":"/active/taskHomeCoin"}
-    $.get(taskurl(body), (err, resp, data) => {
+    $.post(taskurl(body), (err, resp, data) => {
       try {
         data = JSON.parse(data);
       } catch (e) {
@@ -193,7 +193,7 @@ function taskHomeCoin(type, id) {
 function getCoin() {
   return new Promise((resolve) => {
     const body = {"apiMapping":"/active/getCoin"}
-    $.get(taskurl(body), (err, resp, data) => {
+    $.post(taskurl(body), (err, resp, data) => {
       try {
         data = JSON.parse(data);
         if (data.code === 1001) {
@@ -213,10 +213,10 @@ function getCoin() {
   })
 }
 
-function taskList() {
-  return new Promise((resolve) => {
+async function taskList() {
+  return new Promise(async (resolve) => {
     const body = {"apiMapping":"/active/taskList"}
-    $.get(taskurl(body), async (err, resp, data) => {
+    $.post(taskurl(body), async (err, resp, data) => {
       try {
         data = JSON.parse(data);
         if (data.code === 200) {
@@ -224,17 +224,23 @@ function taskList() {
           //浏览商品
           if (task4.finishNum < task4.totalNum) {
             await browseProduct(task4.skuId);
+            await $.wait(2000)
             await taskCoin(task4.type);
+            await $.wait(2000)
           }
           //浏览会场
           if (task1.finishNum < task1.totalNum) {
             await strollActive((task1.finishNum + 1));
+            await $.wait(2000)
             await taskCoin(task1.type);
+            await $.wait(2000)
           }
           //关注或浏览店铺
           if (task2.finishNum < task2.totalNum) {
             await followShop(task2.shopId);
+            await $.wait(2000)
             await taskCoin(task2.type);
+            await $.wait(2000)
           }
           // if (task5.finishNum < task5.totalNum) {
           //   console.log(`\n\n分享好友助力 ${task5.finishNum}/${task5.totalNum}\n\n`)
@@ -276,7 +282,7 @@ function browseProduct(skuId) {
 function strollActive(index) {
   return new Promise((resolve) => {
     const body = {"activeId":index,"apiMapping":"/active/strollActive"}
-    $.get(taskurl(body), (err, resp, data) => {
+    $.post(taskurl(body), (err, resp, data) => {
       try {
         data = JSON.parse(data);
       } catch (e) {
@@ -291,7 +297,7 @@ function strollActive(index) {
 function followShop(shopId) {
   return new Promise((resolve) => {
     const body = {"shopId":shopId,"apiMapping":"/active/followShop"}
-    $.get(taskurl(body), (err, resp, data) => {
+    $.post(taskurl(body), (err, resp, data) => {
       try {
         data = JSON.parse(data);
       } catch (e) {
@@ -306,7 +312,7 @@ function followShop(shopId) {
 function taskCoin(type) {
   return new Promise((resolve) => {
     const body = {"type":type,"apiMapping":"/active/taskCoin"}
-    $.get(taskurl(body), (err, resp, data) => {
+    $.post(taskurl(body), (err, resp, data) => {
       try {
         data = JSON.parse(data);
       } catch (e) {
@@ -377,7 +383,7 @@ function lottery() {
 function shareUrl() {
   return new Promise((resolve) => {
     const body = {"apiMapping":"/active/shareUrl"}
-    $.get(taskurl(body), async (err, resp, data) => {
+    $.post(taskurl(body), async (err, resp, data) => {
       try {
         data = JSON.parse(data);
         if (data['code'] === 5000) {
@@ -410,29 +416,6 @@ function taskurl(body = {}) {
       "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
     }
   }
-}
-function updateShareCodesCDN(url) {
-  return new Promise(resolve => {
-    const options = {
-      url: `${url}?${new Date()}`, "timeout": 10000, headers: {
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-      }
-    };
-    $.get(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          $.updatePkActivityIdRes = JSON.parse(data);
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve();
-      }
-    })
-  })
 }
 function TotalBean() {
   return new Promise(async resolve => {
