@@ -43,16 +43,16 @@
 #10 0-23/3 * * * node /scripts/jd_jxmczl.js >> /scripts/logs/jd_jxmczl.log 2>&1
 #京喜领红包
 1 5,20 * 6 * node /scripts/jd_jxlhb.js >> /scripts/logs/jd_jxlhb.log 2>&1
-# 燃动夏季
-12 0,6-23/2 * * * node /scripts/jd_summer_movement.js >> /scripts/logs/jd_summer_movement.log 2>&1
-#燃动夏季_SH助力
-14/41 7-14 * * * node /scripts/jd_summer_sh_help.js >> /scripts/logs/jd_summer_sh_help.log 2>&1
-#燃动夏季领会员奖励
-7 12,13 * * * node /scripts/jd_summer_movement_cardAndmap.js >> /scripts/logs/jd_summer_movement_cardAndmap.log 2>&1
-#燃动夏季下注
-11 12,20 * * * node /scripts/jd_summer_movement_bet.js >> /scripts/logs/jd_summer_movement_bet.log 2>&1
-#燃动夏季领红包
-45 16,20 * * * node /scripts/jd_summer_movement_red.js >> /scripts/logs/jd_summer_movement_red.log 2>&1
+## 燃动夏季
+#12 0,6-23/2 * * * node /scripts/jd_summer_movement.js >> /scripts/logs/jd_summer_movement.log 2>&1
+##燃动夏季_SH助力
+#14/41 7-14 * * * node /scripts/jd_summer_sh_help.js >> /scripts/logs/jd_summer_sh_help.log 2>&1
+##燃动夏季领会员奖励
+#7 12,13 * * * node /scripts/jd_summer_movement_cardAndmap.js >> /scripts/logs/jd_summer_movement_cardAndmap.log 2>&1
+##燃动夏季下注
+#11 12,20 * * * node /scripts/jd_summer_movement_bet.js >> /scripts/logs/jd_summer_movement_bet.log 2>&1
+##燃动夏季领红包
+#45 16,20 * * * node /scripts/jd_summer_movement_red.js >> /scripts/logs/jd_summer_movement_red.log 2>&1
 # 欧洲杯签到
 55 59 9  * * * node /scripts/jd_europeancup.js >> /scripts/logs/jd_europeancup.log 2>&1
 #东东电竞经理
@@ -83,6 +83,12 @@
 36 0,10,21 4-15 8 * node /scripts/jd_qxqbj.js >> /scripts/logs/jd_qxqbj.log 2>&1
 #5G超级盲盒
 0 0,1-23/3 * * * node /scripts/jd_mohe.js >> /scripts/logs/jd_mohe.log 2>&1
+#省钱大赢家之翻翻乐
+20 * * * * node /scripts/jd_big_winner.js >> /scripts/logs/jd_big_winner.log 2>&1
+#荣耀换新
+20 8 * * * node /scripts/jd_ryhx.js >> /scripts/logs/jd_ryhx.log 2>&1
+#京东众筹许愿池
+0 8,12 * * * node /scripts/jd_wish.js >> /scripts/logs/jd_wish.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
@@ -201,14 +207,12 @@
 14 10 * * * node /scripts/jd_sign_graphics.js >> /scripts/logs/jd_sign_graphics.log 2>&1
 #汪汪乐园
 30 2,20 * * * node /scripts/jd_joy_park.js >> /scripts/logs/jd_joy_park.log 2>&1
-#省钱大赢家之翻翻乐
-20 * * * * node /scripts/jd_big_winner.js >> /scripts/logs/jd_big_winner.log 2>&1
 #天天赚京豆
 20 8 * * * node /scripts/jd_ttzjd.js >> /scripts/logs/jd_ttzjd.log 2>&1
 #宠汪汪验证码获取
 30 57 23,7,15 * * * node /scripts/jd_task_validate.js >> /scripts/logs/jd_task_validate.log 2>&1
-#荣耀换新
-20 8 * * * node /scripts/jd_ryhx.js >> /scripts/logs/jd_ryhx.log 2>&1
+#签到领现金兑换
+0 0 * * *  node /scripts/jd_cash_exchange.js >> /scripts/logs/jd_cash_exchange.log 2>&1
 ##############默认注释活动##############
 # 京东试用（默认注释，请配合取关脚本使用）
 10 0 * * *  node /scripts/jd_try.js >> /scripts/logs/jd_try.log 2>&1
