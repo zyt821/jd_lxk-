@@ -18,7 +18,7 @@ let tswb = '';//变量 你想要自定义发送的文本内容 如 老弟 你的
 if (process.env.tswb) {
   tswb = process.env.tswb;
 }
-
+ let allFalseLoginCk=[]
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -39,6 +39,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+      $.pin = cookiesArr[i].match(/pt_pin=([^; ]+)(?=;?)/)[1];
       $.index = i + 1;
       $.isLogin = true;
       $.nickName = '';
@@ -46,18 +47,20 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
       await TotalBean();
       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
       if (!$.isLogin) {
-        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-
-        if ($.isNode()) {
-          await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n${tswb}`);
-        }
+        //$.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+        allFalseLoginCk.push(`序号 ${$.index} :: 京东账号 ${$.nickName || $.UserName} \n`);
         continue
       }
     }
   }
-if ($.isNode() && allMessage) {
-        await notify.sendNotify(`${$.name}`, `${allMessage}` )
-    }
+  console.log(`\n******* cookie失效列表 ********\n`);
+  console.log(`${allFalseLoginCk}\n`);
+  if ($.isNode()) {
+    await notify.sendNotify(`cookie失效列表 `, `${allFalseLoginCk}\n`);
+  }
+// if ($.isNode() && allMessage) {
+//         await notify.sendNotify(`${$.name}`, `${allMessage}` )
+//     }
 })()
   .catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
