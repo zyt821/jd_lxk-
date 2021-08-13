@@ -144,6 +144,8 @@
 20 0,20 * * * node /scripts/jd_necklace2.js >> /scripts/logs/jd_necklace2.log 2>&1
 # 京喜工厂
 20 * * * * node /scripts/jd_dreamFactory.js >> /scripts/logs/jd_dreamFactory.log 2>&1
+#京喜工厂电力开团
+5,10,15,20 0 * * * node /scripts/jd_dreamFactory_tuan.js >> /scripts/logs/jd_dreamFactory_tuan.log 2>&1
 # 东东小窝
 16 6,23 * * * node /scripts/jd_small_home.js >> /scripts/logs/jd_small_home.log 2>&1
 # 东东工厂
