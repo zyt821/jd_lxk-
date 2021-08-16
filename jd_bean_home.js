@@ -38,7 +38,11 @@ if ($.isNode()) {
 const JD_API_HOST = 'https://api.m.jd.com/';
 !(async () => {
   $.newShareCodes = []
-  $.authorCode = []
+  $.authorCode = [
+      '346EF4BD0A25F405067AC1C3991110BA',
+      'F4AEC40E3AA2DA5266C483C883F5F1CB',
+      '9C178626C4351B0C716F5A643D1E382BAD1DAAB9A3E3F6CBAFDE81EEB7393333'
+  ]
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
