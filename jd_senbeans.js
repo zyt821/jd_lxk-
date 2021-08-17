@@ -54,85 +54,85 @@ if ($.isNode()) {
     }
     await myReward()
   }
-  for (let i = 0; (cookiesArr.length < 3 ? i < cookiesArr.length : i < 3) && $.activityId === ''; i++) {
-    $.cookie = cookiesArr[i];
-    $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-    $.isLogin = true;
-    $.nickName = ''
-    if (!$.isLoginInfo[$.UserName]) continue;
-    await getActivityInfo();
-  }
-  if ($.activityId === '') {
-    console.log(`获取活动ID失败`);
-    return;
-  }
-  let openCount = Math.floor((Number(cookiesArr.length)-1)/Number($.completeNumbers));
-  console.log(`\n共有${cookiesArr.length}个账号，前${openCount}个账号可以开团\n`);
-  $.openTuanList = [];
-  console.log(`前${openCount}个账号开始开团\n`);
-  for (let i = 0; i < cookiesArr.length && i < openCount; i++) {
-    $.cookie = cookiesArr[i];
-    $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-    $.index = i + 1;
-    $.isLogin = true;
-    $.nickName = '';
-    if (!$.isLoginInfo[$.UserName]) {
-      await TotalBean();
-      console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
-      $.isLoginInfo[$.UserName] = $.isLogin;
-      if (!$.isLogin) {
-        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-        if ($.isNode()) {
-          await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-        }
-        continue;
-      }
-    } else {
-      console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
-    }
-    await openTuan();
-  }
-  console.log('\n开团信息\n'+JSON.stringify($.openTuanList));
-  console.log(`\n开始互助\n`);
-  let ckList = getRandomArrayElements(cookiesArr,cookiesArr.length);
-  for (let i = 0; i < ckList.length && $.openTuanList.length > 0; i++) {
-    $.cookie = ckList[i];
-    $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-    $.index = i + 1;
-    $.isLogin = true;
-    if(!$.isLoginInfo[$.UserName]){
-      await TotalBean();
-      $.isLoginInfo[$.UserName] = $.isLogin;
-      if (!$.isLogin) {
-        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-        if ($.isNode()) {
-          await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-        }
-        continue;
-      }
-    }
-    await helpMain();
-  }
-  console.log(`\n开始领取奖励\n`);
-  for (let i = 0; i < cookiesArr.length && i < openCount; i++) {
-    $.cookie = cookiesArr[i];
-    $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-    $.index = i + 1;
-    $.isLogin = true;
-    if(!$.isLoginInfo[$.UserName]){
-      await TotalBean();
-      $.isLoginInfo[$.UserName] = $.isLogin;
-      if (!$.isLogin) {
-        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-        if ($.isNode()) {
-          await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-        }
-        continue;
-      }
-    }
-    console.log(`\n*****开始【京东账号${$.index}】${$.UserName}*****\n`);
-    await rewardMain();
-  }
+  // for (let i = 0; (cookiesArr.length < 3 ? i < cookiesArr.length : i < 3) && $.activityId === ''; i++) {
+  //   $.cookie = cookiesArr[i];
+  //   $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+  //   $.isLogin = true;
+  //   $.nickName = ''
+  //   if (!$.isLoginInfo[$.UserName]) continue;
+  //   await getActivityInfo();
+  // }
+  // if ($.activityId === '') {
+  //   console.log(`获取活动ID失败`);
+  //   return;
+  // }
+  // let openCount = Math.floor((Number(cookiesArr.length)-1)/Number($.completeNumbers));
+  // console.log(`\n共有${cookiesArr.length}个账号，前${openCount}个账号可以开团\n`);
+  // $.openTuanList = [];
+  // console.log(`前${openCount}个账号开始开团\n`);
+  // for (let i = 0; i < cookiesArr.length && i < openCount; i++) {
+  //   $.cookie = cookiesArr[i];
+  //   $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+  //   $.index = i + 1;
+  //   $.isLogin = true;
+  //   $.nickName = '';
+  //   if (!$.isLoginInfo[$.UserName]) {
+  //     await TotalBean();
+  //     console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
+  //     $.isLoginInfo[$.UserName] = $.isLogin;
+  //     if (!$.isLogin) {
+  //       $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+  //       if ($.isNode()) {
+  //         await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+  //       }
+  //       continue;
+  //     }
+  //   } else {
+  //     console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
+  //   }
+  //   await openTuan();
+  // }
+  // console.log('\n开团信息\n'+JSON.stringify($.openTuanList));
+  // console.log(`\n开始互助\n`);
+  // let ckList = getRandomArrayElements(cookiesArr,cookiesArr.length);
+  // for (let i = 0; i < ckList.length && $.openTuanList.length > 0; i++) {
+  //   $.cookie = ckList[i];
+  //   $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+  //   $.index = i + 1;
+  //   $.isLogin = true;
+  //   if(!$.isLoginInfo[$.UserName]){
+  //     await TotalBean();
+  //     $.isLoginInfo[$.UserName] = $.isLogin;
+  //     if (!$.isLogin) {
+  //       $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+  //       if ($.isNode()) {
+  //         await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+  //       }
+  //       continue;
+  //     }
+  //   }
+  //   await helpMain();
+  // }
+  // console.log(`\n开始领取奖励\n`);
+  // for (let i = 0; i < cookiesArr.length && i < openCount; i++) {
+  //   $.cookie = cookiesArr[i];
+  //   $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+  //   $.index = i + 1;
+  //   $.isLogin = true;
+  //   if(!$.isLoginInfo[$.UserName]){
+  //     await TotalBean();
+  //     $.isLoginInfo[$.UserName] = $.isLogin;
+  //     if (!$.isLogin) {
+  //       $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+  //       if ($.isNode()) {
+  //         await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+  //       }
+  //       continue;
+  //     }
+  //   }
+  //   console.log(`\n*****开始【京东账号${$.index}】${$.UserName}*****\n`);
+  //   await rewardMain();
+  // }
 })().catch((e) => {$.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')}).finally(() => {$.done();});
 
 async function getActivityInfo(){
