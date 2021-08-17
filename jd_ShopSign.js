@@ -88,7 +88,7 @@ if ($.isNode()) {
 
 //开始店铺签到
 async function dpqd() {
-    //subTitle = `【京东账号${$.index}】${$.nickName}`;
+    subTitle = `【京东账号${$.index}】${$.nickName}`;
     for (var j = 0; j < token.length; j++) {
         num = j + 1
         if (token[j] == '') { continue }
