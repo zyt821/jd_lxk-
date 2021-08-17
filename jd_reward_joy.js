@@ -18,7 +18,7 @@ async function main(id) {
     let lists = txt.split("\n");
     let validate = lists[id.index - 1];
     let params = {
-        'url': `https://jdjoy.jd.com/common/gift/getBeanConfigs?reqSource=h5&invokeKey=ztmFUCxcPMNyUq0P&validate=${validate}`,
+        'url': `https://jdjoy.jd.com/common/gift/getBeanConfigs?reqSource=h5&invokeKey=${$.config['invokeKey']}&validate=${validate}`,
         'cookie': id.cookie
     }
     try {
@@ -33,7 +33,7 @@ async function main(id) {
         }
         for (let i of config.reverse()) {
             params = {
-                'url': `https://jdjoy.jd.com/common/gift/new/exchange?reqSource=h5&invokeKey=ztmFUCxcPMNyUq0P&validate=${validate}`,
+                'url': `https://jdjoy.jd.com/common/gift/new/exchange?reqSource=h5&invokeKey=${$.config['invokeKey']}&validate=${validate}`,
                 'body': `{"buyParam":{"orderSource":"pet","saleInfoId":${i.id}},"deviceInfo":{}}`,
                 'cookie': id.cookie
             }
@@ -66,28 +66,4 @@ async function main(id) {
             }
         }
     } catch (e) {}
-}
-function getJDServerTime() {
-    return new Promise(resolve => {
-        // console.log(Date.now())
-        $.get({url: "https://api.m.jd.com/client.action?functionId=queryMaterialProducts&client=wh5",headers:{
-                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-            }}, async (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${JSON.stringify(err)}`)
-                    console.log(`${$.name} 获取京东服务器时间失败，请检查网路重试`)
-                } else {
-                    data = JSON.parse(data);
-                    $.jdTime = data['currentTime2'];
-                    // console.log(data['serverTime']);
-                    // console.log(data['serverTime'] - Date.now())
-                }
-            } catch (e) {
-                $.logErr(e, resp)
-            } finally {
-                resolve($.jdTime);
-            }
-        })
-    })
 }

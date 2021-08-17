@@ -5,7 +5,7 @@
 ==============Quantumult X==============
 [task_local]
 #宠汪汪积分兑换奖品
-30 57 23,7,15 * * * jd_task_validate.js, tag=宠汪汪验证码获取, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdcww.png, enabled=true
+58 23,7,15 * * * jd_task_validate.js, tag=宠汪汪验证码获取, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdcww.png, enabled=true
 */
 let common = require("./utils/common");
 let $ = new common.env('京东验证码获取'); 
