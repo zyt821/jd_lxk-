@@ -1,4 +1,4 @@
-let common = require("./utils/common");
+let common = require("./function/common");
 let $ = new common.env('宠汪汪兑换京豆');
 let fs = require("fs");
 $.setOptions({
@@ -11,6 +11,9 @@ $.setOptions({
 eval(common.eval.mainEval($));
 async function prepare() {
     $.thread = 1;
+    $.options.headers.lkt = $.timestamp;
+    $.options.headers.lks = $.md5(`${$.config['invokeKey']}${$.timestamp}`)
+    console.log('invokeKey', $.config['invokeKey'])
     //await $.timer("00 00 */8",120)
 }
 async function main(id) {
@@ -23,47 +26,53 @@ async function main(id) {
     }
     try {
         await $.curl(params)
-        let h = new Date().getHours();
-        if (h >= 0 && h < 8) {
-            config = $.source.data['beanConfigs0']
-        } else if (h >= 8 && h < 16) {
-            config = $.source.data['beanConfigs8']
+        if ($.source.data) {
+            let h = new Date().getHours();
+            if (h >= 0 && h < 8) {
+                config = $.source.data['beanConfigs0']
+            } else if (h >= 8 && h < 16) {
+                config = $.source.data['beanConfigs8']
+            } else {
+                config = $.source.data['beanConfigs16']
+            }
+            for (let i of config.reverse()) {
+                params = {
+                    'url': `https://jdjoy.jd.com/common/gift/new/exchange?reqSource=h5&invokeKey=${$.config['invokeKey']}&validate=${validate}`,
+                    'body': `{"buyParam":{"orderSource":"pet","saleInfoId":${i.id}},"deviceInfo":{}}`,
+                    'cookie': id.cookie
+                }
+                await $.curl(params)
+                let log = '';
+                switch ($.source.errorCode) {
+                    case 'stock_empty':
+                        log = "库存为空"
+                        break
+                    case 'insufficient':
+                        log = "积分不足"
+                        break
+                    case 'buy_limit':
+                        log = "已兑换过"
+                        break;
+                    case 'buy_success':
+                        log = "兑换成功"
+                        break;
+                    case 'H0001':
+                        log = "刷新验证"
+                        break;
+                    default:
+                        log = "未知状态"
+                        break
+                }
+                console.log(id.user, log, i.giftValue, $.source.currentTime)
+                $.notices(`${i.giftValue} ${log}`, id.user)
+                if (h < 16) {
+                    break
+                }
+            }
         } else {
-            config = $.source.data['beanConfigs16']
+            console.log(`${$.config['invokeKey']}未获取到数据`)
         }
-        for (let i of config.reverse()) {
-            params = {
-                'url': `https://jdjoy.jd.com/common/gift/new/exchange?reqSource=h5&invokeKey=${$.config['invokeKey']}&validate=${validate}`,
-                'body': `{"buyParam":{"orderSource":"pet","saleInfoId":${i.id}},"deviceInfo":{}}`,
-                'cookie': id.cookie
-            }
-            await $.curl(params)
-            let log = '';
-            switch ($.source.errorCode) {
-                case 'stock_empty':
-                    log = "库存为空"
-                    break
-                case 'insufficient':
-                    log = "积分不足"
-                    break
-                case 'buy_limit':
-                    log = "已兑换过"
-                    break;
-                case 'buy_success':
-                    log = "兑换成功"
-                    break;
-                case 'H0001':
-                    log = "刷新验证"
-                    break;
-                default:
-                    log = "未知状态"
-                    break
-            }
-            console.log(id.user, log, i.giftValue, $.source.currentTime)
-            $.notices(`${i.giftValue} ${log}`, id.user)
-            if (h < 16) {
-                break
-            }
-        }
-    } catch (e) {}
+    } catch (e) {
+        console.log(e.message)
+    }
 }
