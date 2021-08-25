@@ -96,7 +96,7 @@
 ##家电815周年庆礼包
 #54 5 9-15 8 * node /scripts/jd_appliances.js >> /scripts/logs/jd_appliances.log 2>&1
 ##热血心跳,狂解压
-#5 6,8 12-24 8 * node /scripts/jd_decompression.js >> /scripts/logs/jd_decompression.log 2>&1
+5 6,8 * * * node /scripts/jd_decompression.js >> /scripts/logs/jd_decompression.log 2>&1
 ##明星小店
 #10 9,18 9-25 8 * node /scripts/jd_star_shop.js >> /scripts/logs/jd_star_shop.log 2>&1
 #小米-星空大冒险
