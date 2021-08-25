@@ -112,12 +112,18 @@ async function ccSignInNew() {
 }
 function getSign(functionid, body, uuid) {
     return new Promise(async resolve => {
+        let clientVersion
+        if (functionid === 'ccSignInNew') {
+            clientVersion = '9.2.2'
+        } else {
+            clientVersion = '10.1.2'
+        }
         let data = {
             "functionId":functionid,
             "body":body,
             "uuid":uuid,
             "client":"android",
-            "clientVersion":"9.2.2"
+            "clientVersion":clientVersion
         }
         let options = {
             url: `https://jdsign.cf/ddo`,
