@@ -43,16 +43,6 @@
 #10 0-23/3 * * * node /scripts/jd_jxmczl.js >> /scripts/logs/jd_jxmczl.log 2>&1
 #京喜领红包
 30 1,6,12,15,18 * * * node /scripts/jd_jxlhb.js >> /scripts/logs/jd_jxlhb.log 2>&1
-## 燃动夏季
-#12 0,6-23/2 * * * node /scripts/jd_summer_movement.js >> /scripts/logs/jd_summer_movement.log 2>&1
-##燃动夏季_SH助力
-#14/41 7-14 * * * node /scripts/jd_summer_sh_help.js >> /scripts/logs/jd_summer_sh_help.log 2>&1
-##燃动夏季领会员奖励
-#7 12,13 * * * node /scripts/jd_summer_movement_cardAndmap.js >> /scripts/logs/jd_summer_movement_cardAndmap.log 2>&1
-##燃动夏季下注
-#11 12,20 * * * node /scripts/jd_summer_movement_bet.js >> /scripts/logs/jd_summer_movement_bet.log 2>&1
-##燃动夏季领红包
-#45 16,20 * * * node /scripts/jd_summer_movement_red.js >> /scripts/logs/jd_summer_movement_red.log 2>&1
 # 欧洲杯签到
 55 59 9  * * * node /scripts/jd_europeancup.js >> /scripts/logs/jd_europeancup.log 2>&1
 #东东电竞经理
@@ -77,8 +67,6 @@
 23 0,9 24-27 7 * node /scripts/jd_productZ4Brand.js >> /scripts/logs/jd_productZ4Brand.log 2>&1
 #京喜领88元红包
 4 2,10 * * * node /scripts/jd_jxlhb.js >> /scripts/logs/jd_jxlhb.log 2>&1
-#七夕情报局
-#36 0,10,21 4-15 8 * node /scripts/jd_qxqbj.js >> /scripts/logs/jd_qxqbj.log 2>&1
 #5G超级盲盒
 0 0,1-23/3 * * * node /scripts/jd_mohe.js >> /scripts/logs/jd_mohe.log 2>&1
 #省钱大赢家之翻翻乐
@@ -150,8 +138,6 @@
 12 * * * * node /scripts/jd_pigPet.js >> /scripts/logs/jd_pigPet.log 2>&1
 # 点点券
 20 0,20 * * * node /scripts/jd_necklace.js >> /scripts/logs/jd_necklace.log 2>&1
-#点点券二代目
-#20 0,20 * * * node /scripts/jd_necklace2.js >> /scripts/logs/jd_necklace2.log 2>&1
 # 京喜工厂
 20 * * * * node /scripts/jd_dreamFactory.js >> /scripts/logs/jd_dreamFactory.log 2>&1
 #京喜工厂电力开团
