@@ -93,10 +93,10 @@
 31 8,22 13-31 8 * node /scripts/jd_xmGame.js >> /scripts/logs/jd_xmGame.log 2>&1
 #骁龙品牌日
 18 9,19 13-25 8 * node /scripts/jd_xiaolong.js >> /scripts/logs/jd_xiaolong.log 2>&1
-#京东工业品抽奖
-#10 7 17,18 8 * node /scripts/jd_industryLottery.js >> /scripts/logs/jd_industryLottery.log 2>&1
 #王者荣耀投票
 23 8,9 22-31,1-5 8,9 * node /scripts/jd_king.js >> /scripts/logs/jd_king.log 2>&1
+#iqoo生而为赢酷跑
+12 12 28-31,1-12 8,9 * node /scripts/jd_iqoo_run.js >> /scripts/logs/jd_iqoo_run.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
