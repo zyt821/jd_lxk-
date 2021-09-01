@@ -426,8 +426,9 @@ async function wxsign(){
                     }
                 }
                 if(flag){
-                    let additional = `&ptag=&ddwCoin=${ddwCoin}&ddwMoney=${ddwMoney}&dwPrizeType=${dwPrizeType}&strPrizePool${strPrizePool && '='+strPrizePool ||''}&dwPrizeLv=${dwPrizeLv}`
-                    let stk= `_cfd_t,bizCode,ddwCoin,ddwMoney,dwEnv,dwPrizeLv,dwPrizeType,ptag,source,strPrizePool,strZone`
+                    let e = getJxAppToken()
+                    let additional = `&ptag=&ddwCoin=${ddwCoin}&ddwMoney=${ddwMoney}&dwPrizeType=${dwPrizeType}&strPrizePool${strPrizePool && '='+strPrizePool ||''}&dwPrizeLv=${dwPrizeLv}&strPgtimestamp=${e.strPgtimestamp}&strPhoneID=${e.strPhoneID}&strPgUUNum=${e.strPgUUNum}`
+                    let stk= `_cfd_t,bizCode,ddwCoin,ddwMoney,dwEnv,dwPrizeLv,dwPrizeType,ptag,source,strPrizePool,strPgUUNum,strPgtimestamp,strPhoneID,strZone`
                     let res = await taskGet(`story/RewardSigns`, stk, additional)
                     await printRes(res, '签到-小程序')
                 }
