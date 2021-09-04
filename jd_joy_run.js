@@ -279,7 +279,7 @@ function readToken() {
 }
 function readToken() {
   return new Promise(resolve => {
-    $.get({url: `https://cdn.jdsign.cf/gettoken`,headers:{'Host':'jdsign.cf'}, 'timeout': 10000}, (err, resp, data) => {
+    $.get({url: `https://cdn.nz.lu/gettoken`,headers:{'Host':'jdsign.cf'}, 'timeout': 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)

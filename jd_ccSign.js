@@ -160,7 +160,7 @@ function getSign(functionid, body, uuid) {
             "clientVersion":"10.1.2"
         }
         let options = {
-            url: `https://cdn.jdsign.cf/ddo`,
+            url: `https://cdn.nz.lu/ddo`,
             body: JSON.stringify(data),
             headers: {
                 "Host": "jdsign.cf",
