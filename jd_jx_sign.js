@@ -362,13 +362,14 @@ function taskUrl(functionId, body = '', stk) {
     }
   }
 }
-function randomString() {
+function randomString(e) {
   e = e || 32;
   let t = "0123456789abcdef", a = t.length, n = "";
   for (let i = 0; i < e; i++)
     n += t.charAt(Math.floor(Math.random() * a));
   return n
 }
+
 
 function TotalBean() {
   return new Promise(async resolve => {
