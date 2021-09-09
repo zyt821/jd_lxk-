@@ -43,10 +43,8 @@ let allMessage = '';
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  let res = await getAuthorShareCode('https://raw.githubusercontent.com/yongyuanlin/cast/main/mast/connoisseur.json')
-  if (!res) {
-    res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/yongyuanlin/cast@main/mast/connoisseur.json')
-  }
+  let res = await getAuthorShareCode('')
+ 
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
