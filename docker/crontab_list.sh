@@ -83,6 +83,10 @@
 12 12 28-31,1-12 8,9 * node /scripts/jd_iqoo_run.js >> /scripts/logs/jd_iqoo_run.log 2>&1
 #内容鉴赏官
 15 3,6 * * *  node /scripts/jd_connoisseur.js >> /scripts/logs/jd_connoisseur.log 2>&1
+#明星小店
+12 19 10-17 9 * node /scripts/jd_star_shop.js >> /scripts/logs/jd_star_shop.log 2>&1
+#浮窗集卡
+30 9,21 1-12 9 *  node /scripts/jd_necklacecard.js >> /scripts/logs/jd_necklacecard.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
