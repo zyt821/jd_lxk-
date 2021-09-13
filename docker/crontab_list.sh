@@ -144,7 +144,7 @@
 0 0 * * * node /scripts/jd_car.js >> /scripts/logs/jd_car.log 2>&1
 23 1,12,22 * * * node /scripts/jd_bean_home.js >> /scripts/logs/jd_bean_home.log 2>&1
 # 京东直播(每日18豆)
-10-20/5 12 * * * node /scripts/jd_live.js >> /scripts/logs/jd_live.log 2>&1
+50 12-14 * * * node /scripts/jd_live.js >> /scripts/logs/jd_live.log 2>&1
 # 微信小程序京东赚赚
 10 11 * * * node /scripts/jd_jdzz.js >> /scripts/logs/jd_jdzz.log 2>&1
 # 宠汪汪邀请助力
