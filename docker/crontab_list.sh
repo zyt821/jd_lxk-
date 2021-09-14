@@ -87,6 +87,10 @@
 12 19 10-17 9 * node /scripts/jd_star_shop.js >> /scripts/logs/jd_star_shop.log 2>&1
 #浮窗集卡
 30 9,21 1-12 9 *  node /scripts/jd_necklacecard.js >> /scripts/logs/jd_necklacecard.log 2>&1
+#希捷品牌日瓜分百万京豆
+17 10 * 9,10 *  node /scripts/jd_SeagateBrand.js >> /scripts/logs/jd_SeagateBrand.log 2>&1
+#京喜购物返红包助力
+44 6-23 * * *  node /scripts/jd_jx_cashback.js >> /scripts/logs/jd_jx_cashback.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
