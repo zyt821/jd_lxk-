@@ -27,22 +27,30 @@ class env {
         this.options = {
             'headers': {}
         };
-        console.log(`\n🔔${this.name}, 开始!\n`)
+        console.log(`\n??${this.name}, 开始!\n`)
         console.log(`=========== 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*60*60*1000).toLocaleString()} ===========\n`)
     }
     done() {
         let timestamp = new Date().getTime();
         let work = ((timestamp - this.timestamp) / 1000).toFixed(2)
         console.log(`=========================脚本执行完成,耗时${work}s============================\n`)
-        console.log(`🔔${this.name}, 结束!\n`)
+        console.log(`??${this.name}, 结束!\n`)
     }
     notify(array) {
-        let text = '';
+        let text = [];
+        let type = 0
         for (let i of array) {
-            text += `${i.user} -- ${i.msg}\n`
+            text.push(`${i.user} -- ${i.msg}`)
+            type = i.type
         }
         console.log(`\n=============================开始发送提醒消息=============================`)
-        notify.sendNotify(this.name + "消息提醒", text)
+        if (type == 1) {
+            for (let i of text) {
+                notify.sendNotify(this.name + "消息提醒", i)
+            }
+        } else {
+            notify.sendNotify(this.name + "消息提醒", text.join('\n'))
+        }
     }
     wait(t) {
         return new Promise(e => setTimeout(e, t))
@@ -123,18 +131,20 @@ class env {
     loads(str) {
         return JSON.parse(str)
     }
-    notice(msg) {
+    notice(msg, type = 0) {
         this.message.push({
             'index': this.index,
             'user': this.user,
-            'msg': msg
+            'msg': msg,
+            type
         })
     }
-    notices(msg, user, index = '') {
+    notices(msg, user, type = 0) {
         this.message.push({
             'user': user,
             'msg': msg,
-            'index': index
+            // 'index': index,
+            type
         })
     }
     urlparse(url) {
