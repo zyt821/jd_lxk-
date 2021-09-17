@@ -27,14 +27,14 @@ class env {
         this.options = {
             'headers': {}
         };
-        console.log(`\n??${this.name}, 开始!\n`)
+        console.log(`\n🔔${this.name}, 开始!\n`)
         console.log(`=========== 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*60*60*1000).toLocaleString()} ===========\n`)
     }
     done() {
         let timestamp = new Date().getTime();
         let work = ((timestamp - this.timestamp) / 1000).toFixed(2)
         console.log(`=========================脚本执行完成,耗时${work}s============================\n`)
-        console.log(`??${this.name}, 结束!\n`)
+        console.log(`🔔${this.name}, 结束!\n`)
     }
     notify(array) {
         let text = [];
