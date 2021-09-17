@@ -1,7 +1,7 @@
 /*
 author:air
 京喜购物返红包助力
-44 6-23 * * * jd_jx_cashback.js
+44 6-23 * * * jd_jxCashback.js
 */
 let common = require("./utils/common");
 let $ = new common.env('京喜购物返红包助力');

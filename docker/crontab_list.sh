@@ -84,7 +84,7 @@
 #希捷品牌日瓜分百万京豆
 17 10 * 9,10 *  node /scripts/jd_SeagateBrand.js >> /scripts/logs/jd_SeagateBrand.log 2>&1
 #京喜购物返红包助力
-44 6-23 * * *  node /scripts/jd_jx_cashback.js >> /scripts/logs/jd_jx_cashback.log 2>&1
+44 6-23 * * *  node /scripts/jd_jxCashback.js >> /scripts/logs/jd_jxCashback.log 2>&1
 #企有此礼
 30 0 * * *  node /scripts/jd_qycl.js >> /scripts/logs/jd_qycl.log 2>&1
 ##############长期活动##############
@@ -200,7 +200,7 @@
 #来客有礼小程序 送豆得豆
 45 4 * * * node /scripts/jd_senbeans.js >> /scripts/logs/jd_senbeans.log 2>&1
 #京喜签到
-5 0 * * * node /scripts/jd_jx_sign.js >> /scripts/logs/jd_jx_sign.log 2>&1
+5 0 * * * node /scripts/jd_jxSign.js >> /scripts/logs/jd_jxSign.log 2>&1
 #京东签到图形验证
 14 10 * * * node /scripts/jd_sign_graphics.js >> /scripts/logs/jd_sign_graphics.log 2>&1
 #汪汪乐园
