@@ -2,7 +2,7 @@
 //针对<东东玩家>活动进行调整 20210918
 //仅供交流学习使用
 auto.waitFor();
-app.launch("com.jingdong.app.mall");
+//app.launch("com.jingdong.app.mall"); //是否自动打开京东app
 while (text("去完成").findOnce() == null) {
   toast("请手动进入活动页面，并打开任务列表");
   sleep(5000);
