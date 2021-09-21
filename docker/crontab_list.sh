@@ -61,8 +61,8 @@
 6 9,12 * * * node /scripts/jd_mb.js >> /scripts/logs/jd_mb.log 2>&1
 #升级赚京豆
 21 9 * * * node /scripts/jd_MMdou.js >> /scripts/logs/jd_MMdou.log 2>&1
-#特务Zx佳沛
-23 0,9 * * * node /scripts/jd_productZ4Brand.js >> /scripts/logs/jd_productZ4Brand.log 2>&1
+#特务Z
+5 8,9 * * *  node /scripts/jd_productZ4Brand.js >> /scripts/logs/jd_productZ4Brand.log 2>&1
 #京喜领88元红包
 4 2,10 * * * node /scripts/jd_jxlhb.js >> /scripts/logs/jd_jxlhb.log 2>&1
 #5G超级盲盒
@@ -89,6 +89,8 @@
 30 0 * * *  node /scripts/jd_qycl.js >> /scripts/logs/jd_qycl.log 2>&1
 #东东玩家
 20 5 * * * node /scripts/jd_ddwj.js >> /scripts/logs/jd_ddwj.log 2>&1
+#热血心跳,狂解压
+15 6,18 1-16,21-30 9,10 * node /scripts/jd_decompression.js >> /scripts/logs/jd_decompression.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
