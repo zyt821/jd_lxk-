@@ -22,7 +22,7 @@ if(text("去完成").exists()){
         if (textMatches(/.*[0-9]S.*/).exists() && textMatches(/.*[0-9]S.*/).findOnce().parent().child(8).text() == "去完成") {
             console.info("开始浏览任务");
             textMatches(/.*[0-9]S.*/).findOnce().parent().child(8).click();
-            sleep(9000);
+            sleep(12000);
             console.log("任务完成");
         } else if (textContains("加购").exists() && textContains("加购").findOnce().parent().child(8).text() == "去完成") {
             console.info("开始加购任务");
