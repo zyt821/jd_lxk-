@@ -9,7 +9,7 @@ while (text("21f6d36e11451cdd").findOnce() == null) {
     sleep(5000);
 }
 console.show();//开启悬浮窗
-if(text("21f6d36e11451cdd").exists()){
+if(text("21f6d36e11451cdd").exists()){//可能需要切换场景，建议手动打开任务列表
     console.info("成功进入活动界面");
     click(712,2670)
     sleep(2000);
