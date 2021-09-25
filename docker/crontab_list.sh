@@ -93,6 +93,8 @@
 15 6,18 1-16,21-30 9,10 * node /scripts/jd_decompression.js >> /scripts/logs/jd_decompression.log 2>&1
 #东东游戏
 35 12-23/4 * * * node /scripts/jd_ddgame.js >> /scripts/logs/jd_ddgame.log 2>&1
+#集魔方
+16 10,19 * * * node /scripts/jd_mofang.js >> /scripts/logs/jd_mofang.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
